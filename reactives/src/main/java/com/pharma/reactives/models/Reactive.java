@@ -3,6 +3,9 @@ package com.pharma.reactives.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name="reactives")
@@ -23,14 +26,9 @@ public class Reactive {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "measure_unit")
-    @Enumerated(EnumType.STRING)
-    private Unit measure_unit;
-
     public Reactive(){
         this.stock = 0;
         this.price = 0;
-        this.measure_unit = Unit.KG;
     }
 
     public Reactive(String name, String formula){
@@ -38,10 +36,12 @@ public class Reactive {
         this.formula = formula;
     }
 
-    public Reactive(double stock, double price, Unit measure_unit){
+    public Reactive(double stock, double price){
         this.stock = stock;
         this.price = price;
-        this.measure_unit = measure_unit;
     }
+
+    @OneToMany(mappedBy = "reactive", cascade = CascadeType.ALL)
+    private List<Medicine> medicines;
 
 }

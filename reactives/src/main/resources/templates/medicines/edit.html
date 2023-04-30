@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update medicine</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/medicines/{id}(id=${medicine.getId()})}" th:object="${medicine}">
+    <label for="price">Enter price:</label>
+    <input type="text" th:field="*{price}" id="price"/>
+    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
+
+    <input type="submit" value="Update!">
+</form>
+
+</body>
+</html>
