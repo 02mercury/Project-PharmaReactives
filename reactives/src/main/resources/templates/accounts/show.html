@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Information</title>
+  <style>
+    body {
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+    }
+
+    header {
+      background-color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    header img {
+      height: 200px;
+    }
+
+    .wrapper {
+      margin: 0 auto;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      box-shadow: 0 5px 10px 0 rgba(69, 90, 100, 0.16);
+    }
+
+    .wrapper .left {
+      width: 35%;
+      background: linear-gradient(to bottom right, #2074c3, #3b92e2);
+      padding: 30px 25px;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      text-align: center;
+      color: #fff;
+      font-size: 20px;
+    }
+
+    .wrapper .left img {
+      margin-top: 30px;
+    }
+
+    .wrapper .right {
+      width: 65%;
+      background-color: #ffffff;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      padding:25px;
+      border: 1px solid #cccccc;
+    }
+
+    .wrapper .right .info,
+    .wrapper .right .status {
+      margin-bottom: 25px;
+
+    }
+
+    .wrapper .right .info h3,
+    .wrapper .right .status h3{
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #1E2022;
+      letter-spacing: 5px;
+      color: #1E2022;
+      text-transform: uppercase;
+    }
+
+    .wrapper .right .info_data,
+    .wrapper .right .status-data{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .wrapper .right .info_data .data,
+    .wrapper .right .status-data .data{
+      width: 60%;
+    }
+
+    .wrapper .right .info_data .data label,
+    .wrapper .right .status-data .data label{
+      color: #353c4e;
+      margin-bottom: 5px;
+    }
+
+    .wrapper .right .info_data .data p,
+    .wrapper .right .status-data .data p{
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #dddddd;
+      padding: 5px;
+      margin-bottom: 0px;
+      /*color: #919aa3;*/
+    }
+
+
+
+    .action {
+      margin: auto;
+      margin-top: 0px;
+      margin-bottom: 50px;
+      width: 250px;
+
+      display: flex;
+      justify-content: space-between;
+
+
+    }
+
+    .edit-button {
+      display: inline-block;
+      background-color: #0098DA;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      width: 80px;
+      margin-left: 5px;
+    }
+
+    input[type=submit] {
+      background-color: #ED504E;
+      border: none;
+      color: white;
+      padding: 10px 30px;
+      text-decoration: none;
+      margin: 0 auto;
+      cursor: pointer;
+
+      margin-right: 5px;
+
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 12px;
+    }
+
+    input[type=button] {
+      background-color: #1E2022;
+      border: none;
+      color: white;
+      padding: 10px 32px;
+      text-align: center;
+      text-decoration: none;
+
+      margin: 0 auto;
+      display: block;
+      cursor: pointer;
+
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 12px;
+
+      margin-bottom: 25px;
+      margin-top: 25px;
+    }
+
+    .non-locked.true {
+      color: #0ea96b;
+      font-family: "Montserrat SemiBold", sans-serif;
+    }
+
+    .non-locked.false {
+      color: #ED504E;
+      font-family: "Montserrat SemiBold", sans-serif;
+    }
+
+    .non-locked {
+      text-align: left;
+    }
+
+    .non-locked {
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+
+<hr/>
+
+<div class="wrapper">
+
+  <div class="left">
+    <img th:src="@{/images/user-3.png}" alt="user" class="src" width="200">
+<!--    <h4>USER INFORMATION</h4>-->
+  </div>
+  <div class="right">
+    <div class="info">
+      <h3>User information</h3>
+      <div class="info_data">
+        <div class="data">
+          <label>Username: </label>
+          <p th:text="${user.getUsername()}">VALUE</p>
+        </div>
+
+        <br/>
+        <div class="data">
+          <label>Date of Birth: </label>
+          <p th:text="${#strings.substring(user.getDate_of_birth(),0,10)}">VALUE</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="status">
+      <h3>Type of account</h3>
+      <div class="status-data">
+        <div class="data">
+          <label>Role: </label>
+          <p th:text="${user.getRole()}">VALUE</p>
+        </div>
+        <div class="data">
+          <label>Account non-locked: </label>
+          <p class="non-locked" th:text="${user.isAccountNonLocked()}" th:classappend="${user.isAccountNonLocked()} ? 'true' : 'false'">value</p>        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="action">
+  <a th:href="@{/accounts/{id}/edit(id=${user.getId})}" class="edit-button">EDIT</a>
+
+  <form th:method="DELETE" th:action="@{/accounts/{id}(id=${user.getId})}" class="delete-button">
+    <input type="submit" value="DELETE">
+  </form>
+</div>
+<hr/>
+<form>
+  <input type="button" value="BACK" onclick="history.back()"/>
+</form>
+
+</body>
+</html>

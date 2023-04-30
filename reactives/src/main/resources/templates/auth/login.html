@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Authentication</title>
+  <style>
+    body {
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+    }
+
+    .container {
+      margin: auto;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      box-shadow: 0px 2px 2px 3px rgba(0, 0, 255, .2);
+      margin-top: 100px;
+      margin-bottom: 50px;
+    }
+
+    input[type=submit] {
+      background-color: #0098DA;
+      border: none;
+      color: white;
+      padding: 10px 32px;
+      text-decoration: none;
+      margin: 0 auto;
+      cursor: pointer;
+      margin-top: 15px;
+
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+
+    }
+
+    input[type=text] {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      margin: 0 auto;
+      margin-top: 10px;
+      font-family: "Montserrat SemiBold", sans-serif;
+      font-weight: bold;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+      color: #0098DA;
+
+    }
+
+    input[type=password] {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      margin: 0 auto;
+      margin-top: 10px;
+      font-family: "Verdana";
+      letter-spacing: 0.125em;
+      font-size: 14px;
+      color: #0098DA;
+    }
+
+    .text-danger {
+      color: #ff0033;
+      display: block;
+      margin: auto;
+      text-align: center;
+      background-color: #ffcdd2;
+      padding: 10px 5px;
+      margin-left: 5px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+
+    label {
+      margin: 0 0 3px 0;
+      margin-left: 25px;
+      padding:0px;
+      display:block;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+
+    input {
+      display: block;
+    }
+
+    h1 {
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      text-align: center;
+      color: #0098DA;
+      letter-spacing: 0.075em;
+      font-size: 26px;
+    }
+
+    button {
+      background-color: #0098DA;
+      border: none;
+      color: white;
+      padding: 10px 32px;
+      text-align: center;
+      text-decoration: none;
+
+      margin: 0 auto;
+      display: block;
+      cursor: pointer;
+      margin-top: 15px;
+
+      width: 87%;
+      margin-bottom: 10px;
+
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+    }
+
+    .login {
+      font-size: 14px;
+      margin-top: 10px;
+      text-align: center;
+      font-family: "Montserrat SemiBold", sans-serif;
+      font-weight: bold;
+    }
+
+    .login a {
+      color: #0098DA;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <form action="login" th:action="@{/auth/login}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <h1>WELCOME BACK</h1>
+
+
+    <div th:if="${param.error}">
+      <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+    </div>
+
+
+
+
+    <label for="username">Enter Username: </label>
+    <input type="text" name="username" id="username" />
+
+    <label for="password">Enter Password: </label>
+    <input type="password" name="password" id="password" />
+      <div class="login">
+        Not a member?
+        <a th:href="@{/auth/registration}">Signup</a>
+      </div>
+    <button type="submit">LOGIN</button>
+  </form>
+</div>
+</body>
+</html>

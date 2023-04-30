@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts</title>
+    <style>
+        body {
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+        }
+
+        header {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header img {
+            height: 200px;
+        }
+
+        .table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-size: 14px;
+            font-family: "Montserrat SemiBold", sans-serif;
+            min-width: 500px;
+            box-shadow: 0px 2px 4px 3px rgba(0, 0, 0, 0.20);
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .table thead tr {
+            background-color: #1E2022;
+            color: #ffffff;
+            text-align: left;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px 15px;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .table tbody tr:last-of-type {
+            border-bottom: 2px solid #1E2022;
+        }
+
+        .username {
+            font-family: "Montserrat SemiBold", sans-serif;
+            text-decoration: none;
+            color: #0098DA;
+        }
+
+        .non-locked.true {
+            color: #0ea96b;
+            font-family: "Montserrat SemiBold", sans-serif;
+        }
+
+        .non-locked.false {
+            color: #ED504E;
+            font-family: "Montserrat SemiBold", sans-serif;
+        }
+
+        .non-locked {
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        input[type=button] {
+            background-color: #1E2022;
+            border: none;
+            color: white;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+
+            margin: 0 auto;
+            display: block;
+            cursor: pointer;
+            margin-top: 15px;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            font-size: 10px;
+        }
+
+        .reactives-page {
+            display: block;
+            margin: auto;
+            background-color: #1E2022;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            width: 100px;
+            margin-top: 25px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .active {
+            align-items: center;
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+
+<hr/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th class="active">non-locked</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.getId()}">value</td>
+
+            <td>
+                <a class="username" th:href="@{/accounts/{id}(id=${user.getId()})}" th:text="${user.getUsername()}">user</a>
+            </td>
+
+            <td class="non-locked" th:text="${user.isAccountNonLocked()}" th:classappend="${user.isAccountNonLocked()} ? 'true' : 'false'">value</td>
+        </tr>
+    </tbody>
+</table>
+<hr/>
+
+<a class="reactives-page" th:href="@{/reactives}">REACTIVES</a>
+
+</body>
+</html>

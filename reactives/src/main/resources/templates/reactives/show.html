@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Reactive</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <style>
+        .auth {
+            text-align: center;
+        }
+
+        input[type=submit] {
+            background-color: #ED504E;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+<hr/>
+<table class="table">
+
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>formula</th>
+        <th>stock</th>
+        <th>price</th>
+        <th>measured unit</th>
+    </tr>
+
+    <tr>
+        <td th:text="${reactive.getId()}">value</td>
+        <td th:text="${reactive.getName()}">value</td>
+        <td th:text="${reactive.getFormula()}">value</td>
+        <td th:text="${reactive.getStock()}">value</td>
+        <td th:text="${reactive.getPrice()}">value</td>
+        <td th:text="${reactive.getMeasure_unit()}">value</td>
+
+    </tr>
+
+</table>
+
+<hr/>
+
+<div class="auth" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+    <a th:href="@{/reactives/{id}/edit(id=${reactive.getId()})}">Edit reactive</a>
+
+    <form th:method="DELETE" th:action="@{/reactives/{id}(id=${reactive.getId()})}">
+        <input type="submit" value="DELETE"/>
+    </form>
+</div>
+
+<form>
+    <input type="button" value="BACK" onclick="history.back()"/>
+</form>
+
+<hr/>
+
+</body>
+</html>

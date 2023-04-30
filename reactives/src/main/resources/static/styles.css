@@ -1,0 +1,155 @@
+body{
+    font-family: "Montserrat SemiBold", sans-serif;
+    letter-spacing: 0.075em;
+    font-size: 14px;
+}
+
+header {
+    background-color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+header img {
+    height: 200px;
+}
+
+main {
+    padding: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+    border-bottom: 2px solid #ccc;
+}
+
+tr:nth-child(odd) {
+    background-color: #fff;
+    border-bottom: 2px solid #ccc;
+}
+
+th {
+    background-color: #1E2022;
+    color: #fff;
+    text-align: center;
+}
+
+td a {
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    color: #0098DA;
+    font-weight: bold;
+}
+
+input[type=submit] {
+    background-color: #0098DA;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-decoration: none;
+    margin: 0 auto;
+    cursor: pointer;
+    margin-top: 15px;
+
+    font-family: "Montserrat SemiBold", sans-serif;
+    letter-spacing: 0.075em;
+    font-size: 14px;
+
+    width: 125px;
+}
+
+input[type=text] {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+select {
+    padding:10px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+    width: 85%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+label {
+    margin: 0 0 3px 0;
+    padding:12px;
+    margin-left: 15px;
+    display:block;
+    font-weight: bold;
+}
+
+
+input {
+    display: block;
+
+
+}
+
+input[type=button] {
+    background-color: #1E2022;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+    margin-top: 15px;
+
+    font-family: "Montserrat SemiBold", sans-serif;
+    letter-spacing: 0.075em;
+    font-size: 14px;
+    width: 125px;
+}
+
+.container{
+    margin: auto;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    box-shadow: 0px 2px 2px 3px rgba(0, 0, 255, .2);
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+a {
+    text-decoration: none;
+    color: #0098DA;
+    margin: 0 auto;
+    font-weight: bold;
+}
+
+a:hover{
+    text-decoration: underline;
+}

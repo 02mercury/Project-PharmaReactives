@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Reactive</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+<hr/>
+<div class="container">
+    <form th:method="PATCH" th:action="@{/reactives/{id}(id=${reactive.getId()})}" th:object="${reactive}">
+        <label for="stock">Enter stock:</label>
+        <input type="text" th:field="*{stock}" id="stock">
+        <br/>
+        <label for="price">Enter price:</label>
+        <input type="text" th:field="*{price}" id="price">
+        <br/>
+        <input type="submit" value="UPDATE"/>
+    </form>
+    <hr/>
+    <form>
+        <input type="button" value="BACK" onclick="history.back()"/>
+    </form>
+</div>
+
+
+
+<hr/>
+
+</body>
+</html>

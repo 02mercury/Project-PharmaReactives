@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Reactive</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+<hr/>
+<div class="container">
+    <form th:method="POST" th:action="@{/reactives}" th:object="${reactive}">
+        <label for="name">Enter name:</label>
+        <input type="text" th:field="*{name}" id="name">
+        <br/>
+        <label for="formula">Enter formula:</label>
+        <input type="text" th:field="*{formula}" id="formula">
+        <br/>
+        <label for="stock">Enter stock:</label>
+        <input type="text" th:field="*{stock}" id="stock">
+        <br/>
+        <label for="price">Enter price:</label>
+        <input type="text" th:field="*{price}" id="price">
+        <br/>
+
+        <div class="form-group">
+            <label th:for="measured_unit">Measured unit: </label>
+            <select th:field="*{measure_unit}">
+                <option th:each="unit : ${reactive.measure_unit.values()}"
+                        th:text="${unit}"
+                        th:value="${unit}"></option>
+            </select>
+        </div>
+        <br/>
+
+        <input type="submit" value="CREATE"/>
+    </form>
+</div>
+
+
+<hr/>
+<form>
+    <input type="button" value="BACK" onclick="history.back()"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update person</title>
+
+  <style>
+    body {
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+    }
+
+    header {
+      background-color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    header img {
+      height: 200px;
+    }
+
+    .form-group{
+      margin: auto;
+      width: 100%;
+      max-width: 250px;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      box-shadow: 0px 2px 2px 3px rgba(0, 0, 255, .2);
+      margin-top: 50px;
+      margin-bottom: 25px;
+    }
+
+    .form-group label{
+      margin-left: 15px;
+
+    }
+
+    /*select menu*/
+
+    select {
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      -ms-appearance:none;
+      appearance:none;
+      outline:0;
+      box-shadow:none;
+      border:0!important;
+      background: #cccccc;
+      background-image: none;
+      flex: 1;
+      padding: 0 .5em;
+      color: #1E2022;
+      cursor:pointer;
+      font-size: 1em;
+      font-family: 'Montserrat SemiBold', sans-serif;
+      letter-spacing: 0.075em;
+    }
+    select::-ms-expand {
+      display: none;
+    }
+    .select {
+      margin-top: 10px;
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 3em;
+      line-height: 3;
+      background: #cccccc;
+      overflow: hidden;
+      border-radius: .25em;
+    }
+    .select::after {
+      content: '\25BC';
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0 1em;
+      background: #1E2022;
+      cursor:pointer;
+      pointer-events:none;
+      transition:.25s all ease;
+    }
+    .select:hover::after {
+      color: #0098DA;
+      font-size: 14px;
+    }
+
+
+
+    /*-----------*/
+
+    .container {
+      display: inline-block;
+      position: relative;
+      margin-left: 15px;
+
+      margin-top: 5px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      font-size: 14px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      padding-left: 35px;
+
+    }
+
+    .container h1 {
+      font-size: 14px;
+    }
+
+
+    .container input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: #ED504E;
+      margin-top: 3px;
+    }
+
+    .container:hover input ~ .checkmark {
+      background-color: #ED504E;
+    }
+
+    .container input:checked ~ .checkmark {
+      background-color: #38CE4E;
+    }
+
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .checkmark:before {
+      content: "X";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      text-align: center;
+      font-size: 14px;
+      font-family: "Montserrat SemiBold", sans-serif;
+      color: white;
+    }
+
+    .container input:checked ~ .checkmark:before {
+      display: none;
+    }
+
+    .container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    .container .checkmark:after {
+      left: 9px;
+      top: 5px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    input[type=submit] {
+      background-color: #0098DA;
+      border: none;
+      color: white;
+      padding: 10px 32px;
+      text-decoration: none;
+      margin: 0 auto;
+      cursor: pointer;
+      margin-top: 15px;
+
+      display: block;
+
+      font-family: "Montserrat SemiBold", sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.075em;
+
+
+      margin-bottom: 5px;
+
+      width: 125px;
+    }
+
+    input[type=button] {
+      background-color: #1E2022;
+      border: none;
+      color: white;
+      padding: 10px 32px;
+      text-align: center;
+      text-decoration: none;
+
+      margin: 0 auto;
+      display: block;
+      cursor: pointer;
+      margin-top: 10px;
+
+      width: 125px;
+
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+    }
+
+
+  </style>
+
+
+
+</head>
+<body>
+
+<header>
+  <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+<hr/>
+
+<form th:method="PATCH" th:action="@{/accounts/{id}(id=${user.getId()})}" th:object="${user}">
+
+  <div class="form-group">
+
+      <label th:for="role"><b>Change role: </b></label><br/>
+
+    <div class="select">
+      <select th:field="*{role}">
+        <option th:each="role : ${user.role.values()}"
+                th:text="${role}"
+                th:value="${role}">OPTION</option>
+      </select>
+    </div>
+
+    <br/>
+    <hr/>
+    <label class="container">
+      <h1>Account is non-locked</h1>
+      <input type="checkbox" id="accountNonLocked" name="accountNonLocked" th:checked="${user.accountNonLocked}" />
+      <span class="checkmark"></span>
+    </label>
+
+  </div>
+
+  <input type="submit" value="UPDATE">
+
+  <form>
+    <input type="button" value="BACK" onclick="history.back()"/>
+  </form>
+
+</form>
+
+</body>
+</html>

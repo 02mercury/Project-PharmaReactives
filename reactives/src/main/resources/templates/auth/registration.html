@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+        }
+
+        .container {
+            margin: auto;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            box-shadow: 0px 2px 2px 3px rgba(0, 0, 255, .2);
+            margin-top: 100px;
+            margin-bottom: 50px;
+        }
+
+        input[type=submit] {
+            background-color: #0098DA;
+            border: none;
+            color: white;
+            padding: 10px 32px;
+            text-decoration: none;
+            margin: 0 auto;
+            cursor: pointer;
+            margin-top: 15px;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+
+            width: 87%;
+            margin-bottom: 10px;
+        }
+
+        input[type=text] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            margin: 0 auto;
+            margin-top: 10px;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+            font-weight: bold;
+
+            color: #0098DA;
+        }
+
+        input[type=password] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            margin: 0 auto;
+            margin-top: 10px;
+            font-family: "Verdana";
+            letter-spacing: 0.125em;
+            font-size: 14px;
+            color: #0098DA;
+        }
+
+        input[type=date] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            margin: 0 auto;
+            margin-top: 10px;
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+            font-weight: bold;
+            color: #0098DA;
+        }
+
+        span {
+            color: #ff0033;
+            margin-left: 30px;
+            font-weight: bold;
+        }
+
+
+        label {
+            margin: 0 0 3px 0;
+            margin-left: 25px;
+            padding:0px;
+            display:block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+
+        input {
+            display: block;
+        }
+
+        .login {
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login a {
+            color: #0098DA;
+        }
+
+        h1 {
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+
+            text-align: center;
+            color: #0098DA;
+            letter-spacing: 0.075em;
+            font-size: 26px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
+        <h1>CREATE AN ACCOUNT</h1>
+        <label for="username">Enter Username: </label>
+        <input type="text" th:field="*{username}" id="username"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('username')}"
+              th:errors="*{username}">error</span>
+        <label for="date_of_birth">Enter Date of Birth: </label>
+        <input type="date" th:field="*{date_of_birth}" id="date_of_birth"/>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('date_of_birth')}"
+              th:errors="*{date_of_birth}">error</span>
+        <label for="password">Enter Password: </label>
+        <input type="password" th:field="*{password}" id="password"/>
+
+
+        <span class="validationError"
+              th:if="${#fields.hasErrors('password')}"
+              th:errors="*{username}">error</span>
+        <br/>
+        <div class="login">
+            Have already an account?
+            <a th:href="@{/auth/login}">Login here</a>
+        </div>
+        <input type="submit" value="SIGN UP"/>
+
+    </form>
+</div>
+
+
+</body>
+</html>

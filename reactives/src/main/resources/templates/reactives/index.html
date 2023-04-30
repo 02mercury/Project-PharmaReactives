@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>All reactives</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <style>
+        .employee {
+            margin: auto;
+            display: block;
+            text-align: center;
+
+            color: #1E2022;
+        }
+        .admin {
+            margin: auto;
+            display: block;
+            text-align: center;
+
+            margin-top: 15px;
+            color: #ED504E;
+        }
+
+        .user {
+            margin: auto;
+            display: block;
+            text-align: center;
+
+            margin-top: 15px;
+            color: #1E2022;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+<hr/>
+<main>
+    <table class="table">
+        <tr>
+            <th>name of reactive</th>
+        </tr>
+        <tr th:each="reactive : ${reactives}">
+            <td>
+                <a th:href="@{/reactives/{id}(id=${reactive.getId()})}" th:text="${reactive.getName()}">reactive</a>
+            </td>
+
+        </tr>
+    </table>
+    <br/>
+    <form th:action="@{/logout}" th:method="POST">
+        <input type="submit" value="LOGOUT"/>
+    </form>
+
+</main>
+
+<br/>
+<hr/>
+
+<div class="user" sec:authorize="hasRole('USER')">
+    <b>[role : user]</b>
+</div>
+
+<div class="employee" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+    <b>[role: employee]</b>
+    <a href="/reactives/new">Create new reactive</a>
+</div>
+
+<div class="admin" sec:authorize="hasRole('ADMIN')">
+    <b>[role: admin]</b>
+    <a href="/accounts">List of accounts</a>
+</div>
+
+
+
+
+</body>
+</html>
