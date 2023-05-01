@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>All reactives</title>
     <link rel="stylesheet" th:href="@{/styles.css}" />
+
     <style>
         .employee {
             margin: auto;
@@ -30,6 +31,59 @@
             margin-top: 15px;
             color: #1E2022;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding-left: 0px;
+        }
+
+        .pagination li {
+            display: inline-block;
+            margin: 0 3px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 10px;
+            text-align: center;
+        }
+
+        .pagination li.active {
+            background-color: #1E2022;
+
+        }
+
+        .pagination li a {
+            display: block;
+            width: 100%;
+            color: #007bff;
+        }
+
+        .pagination li a:hover {
+            text-decoration: none;
+            color: #0056b3;
+        }
+
+        .form-inline {
+            width: 150px;
+            display: block;
+            margin: auto;
+        }
+
+        .form-inline {
+
+            color: #333;
+        }
+
+        label.size-select{
+            display: block;
+            width: 200px;
+            padding: 5px;
+            text-align: center;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -39,11 +93,18 @@
 </header>
 <hr/>
 <main>
+    <label class="size-select">Select the number of rows of the table to be displayed:</label>
+    <form method="get" class="form-inline">
+        <select id="size-select" name="size" class="form-control ml-2" onchange="this.form.submit()">
+            <option th:each="size : ${sizes}" th:value="${size}" th:selected="${size == selectedSize}" th:text="${size}">VALUES</option>
+        </select>
+    </form>
+
     <table class="table">
         <tr>
             <th>name of reactive</th>
         </tr>
-        <tr th:each="reactive : ${reactives}">
+        <tr th:each="reactive : ${data.content}">
             <td>
                 <a th:href="@{/reactives/{id}(id=${reactive.getId()})}" th:text="${reactive.getName()}">reactive</a>
             </td>
@@ -51,6 +112,27 @@
         </tr>
     </table>
     <br/>
+
+    <nav>
+        <ul class="pagination">
+            <li th:if="${data.hasPrevious()}">
+                <a th:href="@{${'/reactives'}(page=${data.previousPageable().pageNumber},size=${selectedSize})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, data.totalPages - 1)}" th:class="${data.number == i} ? active">
+                <a th:href="@{${'/reactives'}(page=${i},size=${selectedSize})}" th:text="${i + 1}">1</a>
+            </li>
+            <li th:if="${data.hasNext()}">
+                <a th:href="@{${'/reactives'}(page=${data.nextPageable().pageNumber},size=${selectedSize})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <br/>
+
+
     <form th:action="@{/logout}" th:method="POST">
         <input type="submit" value="LOGOUT"/>
     </form>
@@ -64,18 +146,21 @@
     <b>[role : user]</b>
 </div>
 
+<div class="employee" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE', 'USER')">
+    <a href="/medicines">List of medicines</a>
+    <br/>
+</div>
+
 <div class="employee" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
     <b>[role: employee]</b>
     <a href="/reactives/new">Create new reactive</a>
+    <br/>
 </div>
 
 <div class="admin" sec:authorize="hasRole('ADMIN')">
     <b>[role: admin]</b>
     <a href="/accounts">List of accounts</a>
 </div>
-
-<a href="/medicines">List of medicines</a>
-
 
 
 

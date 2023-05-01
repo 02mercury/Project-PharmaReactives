@@ -34,7 +34,12 @@ public class WebSecurityConfig {
                     .requestMatchers("/accounts").hasRole("ADMIN")
                     .requestMatchers("/reactives", "/reactive/{id}").hasAnyRole("ADMIN", "USER", "EMPLOYEE")
                     .requestMatchers("/reactives/{id}/edit", "/reactives/new").hasAnyRole("ADMIN", "EMPLOYEE")
-                    .requestMatchers("/auth/login", "/auth/registration", "/error").permitAll()
+
+                    .requestMatchers("/medicines/{id}/edit", "/medicines/new").hasAnyRole("ADMIN", "EMPLOYEE")
+                    .requestMatchers("/medicines", "/medicines/{id}").hasAnyRole("ADMIN", "USER", "EMPLOYEE")
+
+
+                .requestMatchers("/auth/login", "/auth/registration", "/error").permitAll()
                     .anyRequest().hasAnyRole("USER", "ADMIN", "EMPLOYEE")
                     .and()
                 .formLogin()

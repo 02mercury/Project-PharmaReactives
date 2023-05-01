@@ -1,20 +1,222 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Medicine</title>
+    <style>
+        body {
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+        }
+
+        header {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header img {
+            height: 200px;
+        }
+
+        .wrapper {
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            box-shadow: 0 5px 10px 0 rgba(69, 90, 100, 0.16);
+        }
+
+        .wrapper .left {
+            width: 35%;
+            background: linear-gradient(to bottom right, rgba(17, 171, 220, 0.2), rgb(214, 218, 255));
+            padding: 30px 25px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            text-align: center;
+            color: #fff;
+            font-size: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .wrapper .left img {
+            margin-top: 30px;
+        }
+
+        .wrapper .right {
+            width: 65%;
+            background-color: #ffffff;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding:25px;
+            border: 1px solid #cccccc;
+        }
+
+        .wrapper .right .info,
+        .wrapper .right .status {
+            margin-bottom: 25px;
+
+        }
+
+        .wrapper .right .info h3,
+        .wrapper .right .status h3{
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #1E2022;
+            letter-spacing: 5px;
+            color: #1E2022;
+            text-transform: uppercase;
+        }
+
+        .wrapper .right .info_data,
+        .wrapper .right .status-data{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .wrapper .right .info_data .data,
+        .wrapper .right .status-data .data{
+            width: 60%;
+        }
+
+        .wrapper .right .info_data .data label,
+        .wrapper .right .status-data .data label{
+            color: #353c4e;
+            margin-bottom: 5px;
+        }
+
+        .wrapper .right .info_data .data p,
+        .wrapper .right .status-data .data p{
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #dddddd;
+            padding: 5px;
+            margin-bottom: 0px;
+        }
+
+        .action {
+            margin: auto;
+            margin-top: 0px;
+            margin-bottom: 50px;
+            width: 250px;
+
+            display: flex;
+            justify-content: space-between;
+
+
+        }
+
+        .edit-button {
+            display: inline-block;
+            background-color: #0098DA;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            width: 80px;
+            margin-right: 5px;
+            text-decoration: none;
+        }
+
+        input[type=submit] {
+            background-color: #ED504E;
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            text-decoration: none;
+            margin: 0 auto;
+            cursor: pointer;
+
+            margin-right: 5px;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 12px;
+        }
+
+        input[type=button] {
+            background-color: #1E2022;
+            border: none;
+            color: white;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+
+            margin: 0 auto;
+            display: block;
+            cursor: pointer;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 12px;
+
+            margin-bottom: 25px;
+            margin-top: 25px;
+        }
+
+    </style>
 </head>
 <body>
-<p th:text="${medicine.getName()}">VALUE</p>
-<p th:text="${medicine.getId()}">VALUE</p>
-<p th:text="${medicine.getDose()}">VALUE</p>
-<p th:text="${medicine.getPrice()}">VALUE</p>
-<p th:text="${medicine.getReactive().getName()}">VALUE</p>
-
-<a th:href="@{/medicines/{id}/edit(id=${medicine.getId})}">Edit</a>
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
 <hr/>
-<form th:method="DELETE" th:action="@{/medicines/{id}(id=${medicine.getId})}">
-    <input type="submit" value="Delete">
+
+<div class="wrapper">
+
+    <div class="left">
+        <img th:src="@{/images/medicine.png}" alt="medicine" class="src" width="200">
+    </div>
+
+    <div class="right">
+        <div class="info">
+            <h3>Medicine information</h3>
+            <div class="info_data">
+                <div class="data">
+                    <label>Name: </label>
+                    <p th:text="${medicine.getName()}">VALUE</p>
+                </div>
+
+                <br/>
+                <div class="data">
+                    <label>Price: </label>
+                    <p th:text="${medicine.getPrice()}">VALUE</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>Composition:</h3>
+            <div class="status-data">
+                <div class="data">
+                    <label>Reactive: </label>
+                    <p th:text="${medicine.getReactive().getName()}">VALUE</p>
+                </div>
+                <div class="data">
+                    <label>Dose (mg): </label>
+                    <p th:text="${medicine.getDose()}">VALUE</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="action" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+    <a th:href="@{/medicines/{id}/edit(id=${medicine.getId()})}" class="edit-button">EDIT</a>
+
+    <form th:method="DELETE" th:action="@{/medicines/{id}(id=${medicine.getId()})}" class="delete-button">
+        <input type="submit" value="DELETE">
+    </form>
+</div>
+<hr/>
+<form>
+    <input type="button" value="BACK" onclick="history.back()"/>
 </form>
 </body>
 </html>

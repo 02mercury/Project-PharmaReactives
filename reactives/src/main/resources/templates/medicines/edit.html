@@ -3,15 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <title>Update medicine</title>
+    <style>
+        body {
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+        }
+
+        header {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header img {
+            height: 200px;
+        }
+
+        .container{
+            margin: auto;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            box-shadow: 0px 2px 2px 3px rgba(0, 0, 255, .2);
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        input[type=button] {
+            background-color: #1E2022;
+            border: none;
+            color: white;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+
+            margin: 0 auto;
+            display: block;
+            cursor: pointer;
+            margin-top: 15px;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+            width: 125px;
+        }
+
+        label {
+            margin: 0 0 3px 0;
+            padding:12px;
+            margin-left: 15px;
+            display:block;
+            font-weight: bold;
+        }
+
+        input {
+            display: block;
+        }
+
+        input[type=submit] {
+            background-color: #0098DA;
+            border: none;
+            color: white;
+            padding: 10px 32px;
+            text-decoration: none;
+            margin: 0 auto;
+            cursor: pointer;
+            margin-top: 15px;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+
+            width: 125px;
+        }
+
+        input[type=text] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            margin: 0 auto;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .error {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+
+
+
+    </style>
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/medicines/{id}(id=${medicine.getId()})}" th:object="${medicine}">
-    <label for="price">Enter price:</label>
-    <input type="text" th:field="*{price}" id="price"/>
-    <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+<hr/>
 
-    <input type="submit" value="Update!">
+<div class="container">
+    <form th:method="PATCH" th:action="@{/medicines/{id}(id=${medicine.getId()})}" th:object="${medicine}">
+        <label for="price">Enter price:</label>
+        <input type="text" th:field="*{price}" id="price"/>
+        <div class="error" style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
+
+        <input type="submit" value="UPDATE">
+    </form>
+</div>
+<hr/>
+<form>
+    <input type="button" value="BACK" onclick="history.back()"/>
 </form>
 
 </body>

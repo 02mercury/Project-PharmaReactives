@@ -3,6 +3,8 @@ package com.pharma.reactives.services;
 import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.repositories.ReactivesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,10 @@ public class ReactiveService {
 
     public List<Reactive> findAll(){
         return reactivesRepository.findAll();
+    }
+
+    public Page<Reactive> findAllPagination(Pageable pageable){
+        return reactivesRepository.findAll(pageable);
     }
 
     public Reactive findOne(int id){

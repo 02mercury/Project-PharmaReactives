@@ -1,18 +1,116 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>All medicines</title>
+
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <style>
+        body {
+            font-family: "Montserrat SemiBold", sans-serif;
+            font-size: 14px;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .product-info {
+            overflow: hidden;
+            background: linear-gradient(to bottom right, rgba(17, 171, 220, 0.2), rgb(214, 218, 255));
+            color: #1E2022;
+            text-align: center;
+            width: 140px;
+            height: 240px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 1.2rem;
+            margin: 2rem;
+            border: 1px solid #ccc;
+            font-size: 18px;
+        }
+
+        .product-info:hover{
+            transform: scale(1.01);
+            box-shadow: 5px 15px 25px #eeeeee;
+        }
+
+        .product img {
+            height: 100px;
+            margin: 1rem;
+        }
+
+        .product-price{
+            color: #0ea96b;
+            font-weight: bold;
+        }
+
+        .product-info a{
+            display: block;
+            height: 100%;
+            color: #0098DA;
+        }
+
+        .reactives-page {
+            display: block;
+            margin: auto;
+            background-color: #1E2022;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            width: 100px;
+            margin-top: 25px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .employee {
+            margin: 0 auto;
+            display: block;
+            text-align: center;
+        }
+
+    </style>
 </head>
 <body>
 
-<div th:each="medicine : ${medicines}">
-    <a th:href="@{/medicines/{id}(id=${medicine.getId()})}"
-       th:text="${medicine.getName()}">medicine</a>
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+<hr/>
+<div class="product">
+
+    <div class="product-info" th:each="medicine : ${medicines}">
+        <img th:src="@{/images/medicine.png}"/>
+        <a th:href="@{/medicines/{id}(id=${medicine.getId()})}"
+           th:text="${medicine.getName()}">MEDICINE</a>
+        <p class="product-price" th:text="${medicine.price + ' mdl'}">$100</p>
+    </div>
 </div>
 
 <br/>
 <hr/>
-<a href="/medicines/new">Create new medicine</a>
+
+
+<div class="employee" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+    <a href="/medicines/new">Create new medicine</a>
+    <br/>
+</div>
+
+<a class="reactives-page" th:href="@{/reactives}">REACTIVES</a>
+
 </body>
 </html>

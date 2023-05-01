@@ -4,6 +4,11 @@ import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.services.ReactiveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +24,23 @@ public class ReactivesController {
         this.reactiveService = reactiveService;
     }
 
+//    @GetMapping()
+//    public String getAll(Model model){
+//        model.addAttribute("reactives", reactiveService.findAll());
+//        return "reactives/index";
+//    }
+
     @GetMapping()
-    public String getAll(Model model){
-        model.addAttribute("reactives", reactiveService.findAll());
+    public String getAll(Model model,
+                         @RequestParam(name = "size", defaultValue = "5") Integer size,
+                         @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 5) Pageable pageable){
+
+        Page<Reactive> page = reactiveService.findAllPagination(pageable);
+
+        model.addAttribute("data", page);
+        model.addAttribute("sizes", new Integer[]{5, 10, 20});
+        model.addAttribute("selectedSize", size);
+
         return "reactives/index";
     }
 
