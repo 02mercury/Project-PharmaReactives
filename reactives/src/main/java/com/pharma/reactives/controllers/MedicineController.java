@@ -4,13 +4,15 @@ import com.pharma.reactives.models.Medicine;
 import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.services.MedicineService;
 import com.pharma.reactives.services.ReactiveService;
+import com.pharma.reactives.util.MedicineValidator;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -18,11 +20,13 @@ import java.util.List;
 public class MedicineController {
     private final MedicineService medicineService;
     private final ReactiveService reactiveService;
+    private final MedicineValidator medicineValidator;
 
     @Autowired
-    public MedicineController(MedicineService medicineService, ReactiveService reactiveService) {
+    public MedicineController(MedicineService medicineService, ReactiveService reactiveService, MedicineValidator medicineValidator) {
         this.medicineService = medicineService;
         this.reactiveService = reactiveService;
+        this.medicineValidator = medicineValidator;
     }
 
     @GetMapping()
@@ -40,17 +44,26 @@ public class MedicineController {
 
     @GetMapping("/new")
     public String newMedicine(Model model){
-        List<Reactive> reactiveList = reactiveService.findAll();
+
         model.addAttribute("medicine", new Medicine());
         // transmit o lista de reactive, pentru a le afisa pe pagina web
-        model.addAttribute("reactiveList", reactiveList);
+        model.addAttribute("reactiveList", reactiveService.findAll());
         return "medicines/new";
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("medicine") Medicine medicine){
+    public String create(@ModelAttribute("medicine") @Valid Medicine medicine,
+                         BindingResult bindingResult,
+                         Model model){
         // Creez un obiect in care se va pastra informatia primita
         Reactive reactive = reactiveService.findOne(medicine.getReactive().getId());
+
+        // validarea dozei introduse de catre utilizator
+        medicineValidator.validate(medicine, bindingResult);
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("reactiveList", reactiveService.findAll());
+            return "/medicines/new";
+        }
 
         // Fac update la stock
         reactive.setStock(reactive.getStock() - medicine.getDose());

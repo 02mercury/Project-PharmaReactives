@@ -11,6 +11,16 @@
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
+    <div class="form-group">
+        <label th:for="reactiveList">Select the Reactive: </label>
+        <select th:field="*{reactive.id}">
+            <option th:each="reactive : ${reactiveList}"
+                    th:text="${reactive.name}"
+                    th:value="${reactive.id}"></option>
+        </select>
+    </div>
+
+    <br/>
     <label for="dose">Enter dose (mg):</label>
     <input type="text" th:field="*{dose}" id="dose"/>
     <div style="color:red" th:if="${#fields.hasErrors('dose')}" th:errors="*{dose}">Dose error</div>
@@ -20,14 +30,7 @@
     <input type="text" th:field="*{price}" id="price"/>
     <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
 
-    <div class="form-group">
-        <label th:for="reactiveList">Measured unit: </label>
-        <select th:field="*{reactive.id}">
-            <option th:each="reactive : ${reactiveList}"
-                    th:text="${reactive.name}"
-                    th:value="${reactive.id}"></option>
-        </select>
-    </div>
+
 
     <br/>
     <input type="submit" value="Create">

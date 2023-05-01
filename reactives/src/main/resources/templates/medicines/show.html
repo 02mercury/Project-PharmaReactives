@@ -9,7 +9,7 @@
 <p th:text="${medicine.getId()}">VALUE</p>
 <p th:text="${medicine.getDose()}">VALUE</p>
 <p th:text="${medicine.getPrice()}">VALUE</p>
-<p th:text="${medicine.getReactive().getId()}">VALUE</p>
+<p th:text="${medicine.getReactive().getName()}">VALUE</p>
 
 <a th:href="@{/medicines/{id}/edit(id=${medicine.getId})}">Edit</a>
 <hr/>
