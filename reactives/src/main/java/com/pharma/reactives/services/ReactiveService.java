@@ -4,7 +4,9 @@ import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.repositories.ReactivesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,10 @@ public class ReactiveService {
         return reactivesRepository.findAll();
     }
 
-    public Page<Reactive> findAllPagination(Pageable pageable){
+    public Page<Reactive> findAllPagination(int pageNumber, String sortField, String sortDir){
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equalsIgnoreCase("asc") ? sort.ascending() : sort.descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5, sort);
         return reactivesRepository.findAll(pageable);
     }
 

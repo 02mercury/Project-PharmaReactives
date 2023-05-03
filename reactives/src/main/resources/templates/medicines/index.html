@@ -94,7 +94,7 @@
 <div class="product">
 
     <div class="product-info" th:each="medicine : ${medicines}">
-        <img th:src="@{/images/medicine.png}"/>
+        <img th:src="@{/images/medicine-icon.png}"/>
         <a th:href="@{/medicines/{id}(id=${medicine.getId()})}"
            th:text="${medicine.getName()}">MEDICINE</a>
         <p class="product-price" th:text="${medicine.price + ' mdl'}">$100</p>

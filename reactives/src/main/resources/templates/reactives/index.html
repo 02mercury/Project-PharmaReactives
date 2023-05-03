@@ -4,14 +4,78 @@
 <head>
     <meta charset="UTF-8">
     <title>All reactives</title>
-    <link rel="stylesheet" th:href="@{/styles.css}" />
 
     <style>
+
+        body{
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+        }
+
+        header {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header img {
+            height: 200px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #353c4e;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+            border-bottom: 2px solid #ccc;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #fff;
+            border-bottom: 2px solid #ccc;
+        }
+
+        th {
+            background-color: #1E2022;
+            color: #fff;
+            text-align: center;
+        }
+
+        th a {
+            color: #0098DA;
+            text-decoration: none;
+        }
+
+        th a:hover {
+            color: #0098DA;
+            text-decoration: underline;
+        }
+
         .employee {
             margin: auto;
             display: block;
             text-align: center;
 
+            margin-top: 15px;
             color: #1E2022;
         }
         .admin {
@@ -32,57 +96,94 @@
             color: #1E2022;
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            padding-left: 0px;
+        a {
+            text-decoration: none;
+            color: #0098DA;
+            margin: 0 auto;
+            font-weight: bold;
         }
 
-        .pagination li {
-            display: inline-block;
-            margin: 0 3px;
-            padding: 5px 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 10px;
+        h1 {
             text-align: center;
+            font-weight: bold;
         }
 
-        .pagination li.active {
-            background-color: #1E2022;
-
-        }
-
-        .pagination li a {
+        .pagination{
+            margin: 0 auto;
             display: block;
             width: 100%;
-            color: #007bff;
-        }
-
-        .pagination li a:hover {
-            text-decoration: none;
-            color: #0056b3;
-        }
-
-        .form-inline {
-            width: 150px;
-            display: block;
-            margin: auto;
-        }
-
-        .form-inline {
-
-            color: #333;
-        }
-
-        label.size-select{
-            display: block;
-            width: 200px;
-            padding: 5px;
             text-align: center;
-            margin: 0 auto;
-            margin-bottom: 10px;
         }
+
+        .actions {
+            justify-content: space-between;
+            align-items: center;
+            width: 150px;
+            display: flex;
+        }
+
+        .submit {
+            background-color: #0098DA;
+            border: none;
+            color: white;
+            padding: 10px 32px;
+            text-decoration: none;
+            margin: 0 auto;
+            display: block;
+
+            cursor: pointer;
+            margin-top: 15px;
+
+            font-family: "Montserrat SemiBold", sans-serif;
+            letter-spacing: 0.075em;
+            font-size: 14px;
+
+            width: 125px;
+        }
+
+        .btn-delete {
+            background-color: #ED504E;
+            border: none;
+            font-family: "Montserrat SemiBold", sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+
+            cursor: pointer;
+
+            border-radius: 5px;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .btn-edit{
+            background-color: #0ea96b;
+            border: none;
+            font-family: "Montserrat SemiBold", sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+
+            cursor: pointer;
+            margin-right: 10px;
+            margin-left: 20px;
+            border-radius: 5px;
+            border-bottom: 2px solid #ccc;
+
+            text-decoration: none;
+        }
+
+        .btn-edit:hover{
+            background-color: #02945d;
+        }
+
+        .btn-delete:hover{
+            background-color: #d53a3a;
+        }
+
 
     </style>
 </head>
@@ -93,54 +194,81 @@
 </header>
 <hr/>
 <main>
-    <label class="size-select">Select the number of rows of the table to be displayed:</label>
-    <form method="get" class="form-inline">
-        <select id="size-select" name="size" class="form-control ml-2" onchange="this.form.submit()">
-            <option th:each="size : ${sizes}" th:value="${size}" th:selected="${size == selectedSize}" th:text="${size}">VALUES</option>
-        </select>
-    </form>
-
+    <h1>List of Reactives</h1>
     <table class="table">
         <tr>
-            <th>name of reactive</th>
+
+            <th sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">id</a>
+            </th>
+            <th>
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">name</a>
+            </th>
+            <th>
+                <!--       reactive-icon         -->
+            </th>
+            <th>formula</th>
+            <th>
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=stock&sortDir=' + ${reverseSortDir}}">stock</a>
+            </th>
+            <th>
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir}}">price</a>
+            </th>
+            <th sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">actions</th>
         </tr>
-        <tr th:each="reactive : ${data.content}">
-            <td>
-                <a th:href="@{/reactives/{id}(id=${reactive.getId()})}" th:text="${reactive.getName()}">reactive</a>
+        <tr th:each="reactive : ${reactiveList}">
+            <td sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')" th:text="${reactive.getId()}">ID</td>
+            <td th:text="${reactive.getName()}">NAME</td>
+            <td><img th:src="@{/images/reactive.png}" width="32px"/></td>
+            <td th:text="${reactive.getFormula()}">FORMULA</td>
+            <td th:text="${reactive.getStock() + ' mg'}">STOCK mg</td>
+            <td th:text="${reactive.getPrice() + ' mdl'}">PRICE mdl</td>
+            <td class="actions" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+                <a class="btn-edit" th:href="@{/reactives/{id}/edit(id=${reactive.getId()})}">EDIT</a>
+                <form th:method="DELETE" th:action="@{/reactives/{id}(id=${reactive.getId()})}">
+                    <input class="btn-delete" type="submit" value="DELETE"/>
+                </form>
             </td>
 
         </tr>
     </table>
-    <br/>
+    <div class="pagination">
+        Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]
+        &nbsp; - &nbsp;
 
-    <nav>
-        <ul class="pagination">
-            <li th:if="${data.hasPrevious()}">
-                <a th:href="@{${'/reactives'}(page=${data.previousPageable().pageNumber},size=${selectedSize})}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li th:each="i : ${#numbers.sequence(0, data.totalPages - 1)}" th:class="${data.number == i} ? active">
-                <a th:href="@{${'/reactives'}(page=${i},size=${selectedSize})}" th:text="${i + 1}">1</a>
-            </li>
-            <li th:if="${data.hasNext()}">
-                <a th:href="@{${'/reactives'}(page=${data.nextPageable().pageNumber},size=${selectedSize})}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <br/>
+        <a th:if="${currentPage > 1}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+        <span th:unless="${currentPage > 1}">First</span>
+        &nbsp;&nbsp;
+
+        <a th:if="${currentPage > 1}" th:href="@{'/reactives/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+        <span th:unless="${currentPage > 1}">Previous</span>
+        &nbsp;&nbsp;
+
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a th:if="${i != currentPage}" th:href="@{'/reactives/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+            <span th:unless="${i != currentPage}">[[${i}]]</span>
+
+            &nbsp;&nbsp;
+        </span>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <span th:unless="${currentPage < totalPages}">Next</span>
+        &nbsp;&nbsp;
+
+        <a th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <span th:unless="${currentPage <  totalPages}">Last</span>
+
+        <br/>
+        Show number of rows:
+    </div>
 
 
-    <form th:action="@{/logout}" th:method="POST">
-        <input type="submit" value="LOGOUT"/>
-    </form>
 
 </main>
-
-<br/>
 <hr/>
+
+<form th:action="@{/logout}" th:method="POST">
+    <input class="submit" type="submit" value="LOGOUT"/>
+</form>
 
 <div class="user" sec:authorize="hasRole('USER')">
     <b>[role : user]</b>

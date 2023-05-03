@@ -2,6 +2,7 @@ package com.pharma.reactives.controllers;
 
 import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.services.ReactiveService;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -25,21 +28,44 @@ public class ReactivesController {
     }
 
 //    @GetMapping()
-//    public String getAll(Model model){
-//        model.addAttribute("reactives", reactiveService.findAll());
+//    public String getAll(Model model,
+//                         @RequestParam(name = "size", defaultValue = "5") Integer size,
+//                         @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 5) Pageable pageable){
+//
+//        Page<Reactive> page = reactiveService.findAllPagination(pageable);
+//
+//        model.addAttribute("data", page);
+//        model.addAttribute("sizes", new Integer[]{5, 10, 20});
+//        model.addAttribute("selectedSize", size);
+//
 //        return "reactives/index";
 //    }
 
     @GetMapping()
-    public String getAll(Model model,
-                         @RequestParam(name = "size", defaultValue = "5") Integer size,
-                         @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 5) Pageable pageable){
+    public String getAll(Model model){
+        return listByPage(model, 1, "name", "asc");
+    }
 
-        Page<Reactive> page = reactiveService.findAllPagination(pageable);
+    @GetMapping("/page/{pageNumber}")
+    public String listByPage(Model model,
+                             @PathVariable("pageNumber") int currentPage,
+                             @PathParam("sortField") String sortField,
+                             @PathParam("sortDir") String sortDir){
 
-        model.addAttribute("data", page);
-        model.addAttribute("sizes", new Integer[]{5, 10, 20});
-        model.addAttribute("selectedSize", size);
+        Page<Reactive> page = reactiveService.findAllPagination(currentPage, sortField, sortDir);
+        List<Reactive> reactiveList = page.getContent();
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("reactiveList", reactiveList);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        model.addAttribute("reverseSortDir", reverseSortDir);
 
         return "reactives/index";
     }
