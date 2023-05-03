@@ -1,31 +1,32 @@
 package com.pharma.reactives.config;
 
-import com.pharma.reactives.services.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Clasa de configurare pentru securitatea aplicatiei web.
+ * @author : Bodiu Dumitru
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
+    /**
+     * Configurarea filtrului de securitate implicit.
+     * Defineste permisiunile si rolurile utilizatorilor.
+     * @param http HttpSecurity configurat
+     * @return SecurityFilterChain
+     * @throws Exception in cazul unei erori la configurare
+     */
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
         throws Exception {
@@ -54,6 +55,10 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    /**
+     * Creeaza un encoder de parole folosind algoritmul bcrypt.
+     * @return PasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

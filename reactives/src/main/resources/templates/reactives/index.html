@@ -184,6 +184,30 @@
             background-color: #d53a3a;
         }
 
+        .page {
+            display: inline-block;
+            margin: 0 5px;
+
+            border: 1px solid #ccc;
+            border-bottom: 3px solid #ccc;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .selected-page {
+            display: inline-block;
+            margin: 0 5px;
+            border: 2px solid #ccc;
+
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+        }
 
     </style>
 </head>
@@ -199,20 +223,20 @@
         <tr>
 
             <th sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">id</a>
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">id</a>
             </th>
             <th>
-                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">name</a>
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">name</a>
             </th>
             <th>
                 <!--       reactive-icon         -->
             </th>
             <th>formula</th>
             <th>
-                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=stock&sortDir=' + ${reverseSortDir}}">stock</a>
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=stock&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">stock</a>
             </th>
             <th>
-                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir}}">price</a>
+                <a th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">price</a>
             </th>
             <th sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">actions</th>
         </tr>
@@ -236,29 +260,43 @@
         Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]
         &nbsp; - &nbsp;
 
-        <a th:if="${currentPage > 1}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-        <span th:unless="${currentPage > 1}">First</span>
+        <a th:if="${currentPage > 1}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">First</a>
+        <span style="color: grey" th:unless="${currentPage > 1}">First</span>
         &nbsp;&nbsp;
 
-        <a th:if="${currentPage > 1}" th:href="@{'/reactives/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
-        <span th:unless="${currentPage > 1}">Previous</span>
+        <a th:if="${currentPage > 1}" th:href="@{'/reactives/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">Previous</a>
+        <span style="color: grey" th:unless="${currentPage > 1}">Previous</span>
         &nbsp;&nbsp;
 
-        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-            <a th:if="${i != currentPage}" th:href="@{'/reactives/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-            <span th:unless="${i != currentPage}">[[${i}]]</span>
-
-            &nbsp;&nbsp;
+        <span  th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a class="page" th:if="${i != currentPage}" th:href="@{'/reactives/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">[[${i}]]</a>
+            <span class="selected-page" style="color: #1E2022;" th:unless="${i != currentPage}">[[${i}]]</span>
         </span>
-        <a th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-        <span th:unless="${currentPage < totalPages}">Next</span>
+
+        &nbsp;
+
+        <a th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">Next</a>
+        <span style="color: grey" th:unless="${currentPage < totalPages}">Next</span>
         &nbsp;&nbsp;
 
-        <a th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-        <span th:unless="${currentPage <  totalPages}">Last</span>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">Last</a>
+        <span style="color: grey" th:unless="${currentPage <  totalPages}">Last</span>
 
         <br/>
+        <br/>
         Show number of rows:
+        &nbsp;&nbsp;
+        <a th:if="${size != 5}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=5'}">5</a>
+        <span style="color: grey" th:unless="${size != 5}">5</span>
+
+        &nbsp;&nbsp;
+        <a th:if="${size != 10}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=10'}">10</a>
+        <span style="color: grey" th:unless="${size != 10}">10</span>
+
+        &nbsp;&nbsp;
+        <a th:if="${size != 20}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=20'}">20</a>
+        <span style="color: grey" th:unless="${size != 20}">20</span>
+
     </div>
 
 

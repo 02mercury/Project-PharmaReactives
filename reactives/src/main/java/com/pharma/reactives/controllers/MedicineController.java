@@ -8,12 +8,17 @@ import com.pharma.reactives.util.MedicineValidator;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Clasa MedicineController gestioneaza requesturile primite pentru entitatea "medicamente"
+ * si le redirecționeaza catre serviciile aferente.
+
+ @author Bodiu Dumitru
+ */
 @Slf4j
 @Controller
 @RequestMapping("/medicines")
@@ -22,6 +27,13 @@ public class MedicineController {
     private final ReactiveService reactiveService;
     private final MedicineValidator medicineValidator;
 
+    /**
+     * Constructorul MedicineController initializeaza serviciile de care are nevoie clasa.
+     *
+     * @param medicineService - serviciu pentru entitatea "medicines"
+     * @param reactiveService - serviciu pentru entitatea "reactives"
+     * @param medicineValidator - validator pentru entitatea "medicines"
+     */
     @Autowired
     public MedicineController(MedicineService medicineService, ReactiveService reactiveService, MedicineValidator medicineValidator) {
         this.medicineService = medicineService;
@@ -29,12 +41,25 @@ public class MedicineController {
         this.medicineValidator = medicineValidator;
     }
 
+    /**
+     * Aceasta metoda returneaza toate medicamentele din baza de date.
+     *
+     * @param model - model pentru a transmite datele medicamentelor la view-ul corespunzator
+     * @return String - numele view-ului corespunzator listei de medicamente
+     */
     @GetMapping()
     public String getAll(Model model){
         model.addAttribute("medicines", medicineService.findAll());
         return "medicines/index";
     }
 
+    /**
+     * Aceasta metoda returneaza medicamentul cu id-ul specificat.
+     *
+     * @param id - id-ul medicamentului cautat
+     * @param model - model pentru a transmite datele medicamentului la view-ul corespunzator
+     * @return String - numele view-ului corespunzator afisarii unui medicament
+     */
     @GetMapping("/{id}")
     public String getById(@PathVariable("id") int id,
                           Model model){
@@ -42,40 +67,58 @@ public class MedicineController {
         return "medicines/show";
     }
 
+    /**
+     * Aceasta metoda returneaza formularul de creare a unui nou medicament.
+     *
+     * @param model - model pentru a transmite datele necesare crearii unui medicament la view-ul corespunzator
+     * @return String - numele view-ului corespunzator crearii unui medicament
+     */
     @GetMapping("/new")
     public String newMedicine(Model model){
 
         model.addAttribute("medicine", new Medicine());
-        // transmit o lista de reactive, pentru a le afisa pe pagina web
         model.addAttribute("reactiveList", reactiveService.findAll());
         return "medicines/new";
     }
 
+    /**
+     * Aceasta metoda salveaza un nou medicament in baza de date.
+     *
+     * @param medicine - obiectul "medicament" creat in urma submit-ului formularului de creare a unui medicament
+     * @param bindingResult - rezultatul validarii obiectului "medicament"
+     * @param model - model pentru a transmite datele necesare crearii unui medicament la view-ul corespunzator
+     * @return String - redirectionare catre lista de medicamente daca medicamentul a fost creat cu succes,
+     * in caz contrar -> catre pagina de creare a medicamentului
+     */
     @PostMapping()
     public String create(@ModelAttribute("medicine") @Valid Medicine medicine,
                          BindingResult bindingResult,
                          Model model){
-        // Creez un obiect in care se va pastra informatia primita
         Reactive reactive = reactiveService.findOne(medicine.getReactive().getId());
 
-        // validarea dozei introduse de catre utilizator
         medicineValidator.validate(medicine, bindingResult);
         if(bindingResult.hasErrors()) {
             model.addAttribute("reactiveList", reactiveService.findAll());
             return "/medicines/new";
         }
 
-        // Fac update la stock
         reactive.setStock(reactive.getStock() - medicine.getDose());
         reactiveService.update(reactive.getId(), reactive);
-        // Atribui reactivul pentru medicament
+
         medicine.setReactive(reactive);
-        // salvez reactivul
         medicineService.save(medicine);
 
         return "redirect:/medicines";
     }
 
+    /**
+     * Această metodă primește cererea HTTP GET pentru a edita un medicament și
+     * returnează pagina de editare.
+     *
+     * @param id - identificatorul unic al medicamentului de editat
+     * @param model - modelul folosit pentru a furniza datele medicamentului de editat
+     * @return String - pagina de editare a medicamentului
+     */
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id,
                        Model model){
@@ -83,6 +126,14 @@ public class MedicineController {
         return "medicines/edit";
     }
 
+    /**
+     * Această metodă primește cererea HTTP PATCH pentru a actualiza un medicament și
+     * returnează pagina cu toate medicamentele disponibile.
+     *
+     * @param medicine - obiectul de tip Medicine care trebuie actualizat
+     * @param id - identificatorul unic al medicamentului care trebuie actualizat
+     * @return String - pagina cu toate medicamentele disponibile
+     */
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("medicine") Medicine medicine,
                          @PathVariable("id") int id){
@@ -90,6 +141,13 @@ public class MedicineController {
         return "redirect:/medicines";
     }
 
+    /**
+     * Această metodă primește cererea HTTP DELETE pentru a șterge un medicament și
+     * returnează pagina cu toate medicamentele disponibile.
+     *
+     * @param id - identificatorul unic al medicamentului care trebuie sters
+     * @return String - pagina cu toate medicamentele disponibile
+     */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id){
         medicineService.delete(id);

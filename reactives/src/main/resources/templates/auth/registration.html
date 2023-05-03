@@ -129,6 +129,20 @@
             letter-spacing: 0.075em;
             font-size: 26px;
         }
+
+        .text-danger {
+            color: #ff0033;
+            display: block;
+            margin: auto;
+            width: 85%;
+            text-align: center;
+            background-color: #ffcdd2;
+            padding: 10px 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
     </style>
 
 </head>
@@ -139,22 +153,23 @@
         <h1>CREATE AN ACCOUNT</h1>
         <label for="username">Enter Username: </label>
         <input type="text" th:field="*{username}" id="username"/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('username')}"
-              th:errors="*{username}">error</span>
+        <div th:if="${#fields.hasErrors('username')}">
+            <p class="text-danger" th:errors="*{username}">USERNAME ERROR</p>
+        </div>
+
         <label for="date_of_birth">Enter Date of Birth: </label>
         <input type="date" th:field="*{date_of_birth}" id="date_of_birth"/>
-        <span class="validationError"
-              th:if="${#fields.hasErrors('date_of_birth')}"
-              th:errors="*{date_of_birth}">error</span>
+        <div th:if="${#fields.hasErrors('date_of_birth')}">
+            <p class="text-danger" th:errors="*{date_of_birth}">DATE OF BIRTH ERROR</p>
+        </div>
+
         <label for="password">Enter Password: </label>
         <input type="password" th:field="*{password}" id="password"/>
 
+        <div th:if="${#fields.hasErrors('password')}">
+            <p class="text-danger" th:errors="*{password}">PASSWORD ERROR</p>
+        </div>
 
-        <span class="validationError"
-              th:if="${#fields.hasErrors('password')}"
-              th:errors="*{username}">error</span>
-        <br/>
         <div class="login">
             Have already an account?
             <a th:href="@{/auth/login}">Login here</a>
