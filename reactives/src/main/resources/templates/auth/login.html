@@ -13,7 +13,7 @@
     .container {
       margin: auto;
       width: 100%;
-      max-width: 300px;
+      max-width: 400px;
       border-radius: 5px;
       background-color: #f2f2f2;
       padding: 20px;
@@ -83,7 +83,7 @@
 
     label {
       margin: 0 0 3px 0;
-      margin-left: 25px;
+      margin-left: 30px;
       padding:0px;
       display:block;
       font-weight: bold;
@@ -137,6 +137,33 @@
       color: #0098DA;
     }
 
+    .remember-me{
+      margin: 0 auto;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      align-items: baseline;
+
+      margin-left: 30px;
+
+      display: inline-flex;
+    }
+
+    .remember-me p {
+      display: flex;
+      margin-left: 10px;
+    }
+
+    input[type=checkbox]{
+      -webkit-appearance: checkbox;
+      -moz-appearance: checkbox;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+    }
+
+
+
   </style>
 </head>
 <body>
@@ -159,6 +186,11 @@
 
     <label for="password">Enter Password: </label>
     <input type="password" name="password" id="password" />
+
+    <div class="remember-me">
+      <input type="checkbox" name="remember-me"/> <p>Remember me on this computer</p>
+    </div>
+
       <div class="login">
         Not a member?
         <a th:href="@{/auth/registration}">Signup</a>

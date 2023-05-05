@@ -50,7 +50,11 @@ public class WebSecurityConfig {
                     .and()
                 .logout()
                     .logoutUrl("/logout")
-                    .logoutSuccessUrl("/auth/login");
+                    .logoutSuccessUrl("/auth/login")
+                    .and()
+                .rememberMe()
+                    .key("QweRtyuiopAsdfgHjKlzxcmnbV0123456789")
+                .tokenValiditySeconds(3 * 24 * 60 * 60); // sesiunea va expira in 3 zile
 
         return http.build();
     }

@@ -20,38 +20,47 @@
             height: 200px;
         }
 
-        .table {
+        table {
             border-collapse: collapse;
+            width: 100%;
+            max-width: 500px;
             margin: 0 auto;
-            font-size: 14px;
-            font-family: "Montserrat SemiBold", sans-serif;
-            min-width: 500px;
-            box-shadow: 0px 2px 4px 3px rgba(0, 0, 0, 0.20);
+
             margin-top: 50px;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
         }
 
-        .table thead tr {
+        th, td {
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #353c4e;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+            border-bottom: 2px solid #ccc;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #fff;
+            border-bottom: 2px solid #ccc;
+        }
+
+        th {
             background-color: #1E2022;
-            color: #ffffff;
-            text-align: left;
+            color: #fff;
+            text-align: center;
         }
 
-        .table th,
-        .table td {
-            padding: 12px 15px;
+        th a {
+            color: #0098DA;
+            text-decoration: none;
         }
 
-        .table tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-
-        .table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        .table tbody tr:last-of-type {
-            border-bottom: 2px solid #1E2022;
+        th a:hover {
+            color: #0098DA;
+            text-decoration: underline;
         }
 
         .username {
@@ -116,6 +125,10 @@
             text-align: center;
         }
 
+        .table-icon {
+            width: 32px;
+        }
+
 
     </style>
 </head>
@@ -130,14 +143,23 @@
 <table class="table">
     <thead>
         <tr>
+
             <th>id</th>
+            <th></th>
             <th>username</th>
             <th class="active">non-locked</th>
         </tr>
     </thead>
     <tbody>
         <tr th:each="user : ${users}">
+
             <td th:text="${user.getId()}">value</td>
+
+            <td class="table-icon">
+                <img th:if="${user.getRole().toString().equals('ROLE_USER')}" th:src="@{/images/user-icon.png}" alt="user" class="src">
+                <img th:if="${user.getRole().toString().equals('ROLE_EMPLOYEE')}" th:src="@{/images/employee-icon.png}" alt="employee" class="src">
+                <img th:if="${user.getRole().toString().equals('ROLE_ADMIN')}" th:src="@{/images/admin-icon.png}" alt="admin" class="src">
+            </td>
 
             <td>
                 <a class="username" th:href="@{/accounts/{id}(id=${user.getId()})}" th:text="${user.getUsername()}">user</a>
