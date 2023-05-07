@@ -5,14 +5,21 @@
     <meta charset="UTF-8">
     <title>Shopping cart</title>
 
-    <link rel="stylesheet" th:href="@{/styles.css}" />
     <style>
         body {
             font-family: "Montserrat SemiBold", sans-serif;
             font-size: 14px;
         }
 
-        .
+        header {
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header img {
+            height: 200px;
+        }
 
         .product-info a{
             display: block;
@@ -37,31 +44,89 @@
 
         a {
             text-decoration: none;
+            color: #0098DA;
+        }
+
+        .row{
+            margin: 0 auto;
+            display: block;
+            width: 500px;
         }
 
         .row-border-rounded {
-            border: 1px solid #cccccc;
             border-radius: 5px;
-            width: 900px;
+            border: 1px solid #cccccc;
+            padding: 10px 20px;
+
+            display: flex;
+
+            justify-content: flex-start;
+            align-items: center;
+            border-bottom: 3px solid #ccc;
         }
 
         .col img{
-            width: 100px;
+            width: 64px;
+            border: 1px solid #cccccc;
+            background: linear-gradient(to bottom right, rgba(17, 171, 220, 0.2), rgb(214, 218, 255));
+            padding: 10px 10px;
+        }
+
+        .medicine-name{
+            width: 200px;
+            text-align: left;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .empty-cart {
+            text-align: center;
+        }
+
+        .price {
+            font-weight: bold;
+            background-color: #0ea96b;
+            color: white;
+            padding: 0 10px;
+        }
+
+        .totalPrice {
+            font-size: 22px;
+
+            padding: 0 10px;
+        }
+
+        .status {
+            width: 15px;
+            margin-left: 0px;
         }
 
         .col {
-            width: 200px;
-        }
-
-        .row {
-            padding-left: 80px;
-
-        }
-
-        .col{
+            display: block;
             margin: 0 auto;
-            display: inline-block;
-            padding: 20px 15px;
+        }
+
+        .btn-delete {
+            background-color: #ED504E;
+            border: none;
+            font-family: "Montserrat SemiBold", sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+
+            cursor: pointer;
+
+            border-radius: 5px;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .btn-delete:hover{
+            background-color: #d53a3a;
         }
 
     </style>
@@ -80,14 +145,14 @@
     <div class="col">
         <th:block th:each="item, status : ${cartItems}">
             <div class="row-border-rounded" th:with="medicine = ${item.medicine}">
-                <div class="col">
+                <div class="status">
                     <div>[[${status.count}]]</div>
                 </div>
                 <div class="col">
                     <img th:src="@{/images/medicine-icon.png}"/>
                 </div>
                 <div class="col">
-                    <div>
+                    <div class="medicine-name">
                         <a th:href="@{/medicines/{id}(id=${medicine.getId()})}">
                             <b>[[${medicine.name}]]</b>
                         </a>
@@ -99,13 +164,15 @@
 
                     </div>
                     <div>
-                        <span>= </span><h4 th:text="${item.getSubTotal() + ' mdl'}">0.0 mdl</h4>
+                        <span>= </span><span class="price" th:text="${item.getSubTotal() + ' mdl'}">0.0 mdl</span>
 
                     </div>
                 </div>
                 <div class="col">
                     <form th:method="DELETE" th:action="@{/cart/{id}(id=${medicine.getId()})}" class="delete-button">
-                        <input type="submit" value="DELETE">
+                        <div class="remove-button">
+                            <input class="btn-delete" type="submit" value="REMOVE">
+                        </div>
                     </form>
                 </div>
             </div>
@@ -116,11 +183,9 @@
 
     <div class="col" th:unless="${#lists.isEmpty(cartItems)}">
         <div>
-            <h3>Estimated Total:</h3>
+            Estimated Total: &nbsp<span class="totalPrice" th:text="${totalPrice + ' mdl'}">money</span>
         </div>
-        <div >
-            <h2 th:text="${totalPrice + ' mdl'}"></h2>
-        </div>
+        <br/>
         <div>
             <button>CHECK OUT</button>
         </div>
@@ -128,7 +193,7 @@
 </div>
 
 <div th:if="${#lists.isEmpty(cartItems)}">
-    <h3>You have not chosen any products yet.</h3>
+    <h3 class="empty-cart">You have not chosen any products yet.</h3>
 </div>
 
 
