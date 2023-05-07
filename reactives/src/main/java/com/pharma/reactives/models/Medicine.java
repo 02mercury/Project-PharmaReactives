@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Clasa care reprezinta entitatea Medicament.
  * Contine proprietati precum: id, nume, doza, pret si o referinta la obiectul Reactive.
@@ -60,4 +62,7 @@ public class Medicine {
         this.dose = 0;
         this.price = 0;
     }
+
+    @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 }

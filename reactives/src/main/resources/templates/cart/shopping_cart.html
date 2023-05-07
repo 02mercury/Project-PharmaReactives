@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping cart</title>
+
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <style>
+        body {
+            font-family: "Montserrat SemiBold", sans-serif;
+            font-size: 14px;
+        }
+
+        .
+
+        .product-info a{
+            display: block;
+            height: 100%;
+            color: #0098DA;
+        }
+
+        .reactives-page {
+            display: block;
+            margin: auto;
+            background-color: #1E2022;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            width: 100px;
+            margin-top: 25px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .row-border-rounded {
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            width: 900px;
+        }
+
+        .col img{
+            width: 100px;
+        }
+
+        .col {
+            width: 200px;
+        }
+
+        .row {
+            padding-left: 80px;
+
+        }
+
+        .col{
+            margin: 0 auto;
+            display: inline-block;
+            padding: 20px 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+
+<hr/>
+
+<h2>This is your Shopping Cart, [[${#authentication.principal.username}]]</h2>
+
+<div class="row">
+    <div class="col">
+        <th:block th:each="item, status : ${cartItems}">
+            <div class="row-border-rounded" th:with="medicine = ${item.medicine}">
+                <div class="col">
+                    <div>[[${status.count}]]</div>
+                </div>
+                <div class="col">
+                    <img th:src="@{/images/medicine-icon.png}"/>
+                </div>
+                <div class="col">
+                    <div>
+                        <a th:href="@{/medicines/{id}(id=${medicine.getId()})}">
+                            <b>[[${medicine.name}]]</b>
+                        </a>
+                    </div>
+                    <div>
+                        <span th:text="${item.quantity}"/>
+                        <span>x</span>
+                        <span>[[${medicine.price}]] mdl</span>
+
+                    </div>
+                    <div>
+                        <span>= </span><h4 th:text="${item.getSubTotal() + ' mdl'}">0.0 mdl</h4>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <form th:method="DELETE" th:action="@{/cart/{id}(id=${medicine.getId()})}" class="delete-button">
+                        <input type="submit" value="DELETE">
+                    </form>
+                </div>
+            </div>
+            <div class="row">&nbsp;</div>
+        </th:block>
+    </div>
+
+
+    <div class="col" th:unless="${#lists.isEmpty(cartItems)}">
+        <div>
+            <h3>Estimated Total:</h3>
+        </div>
+        <div >
+            <h2 th:text="${totalPrice + ' mdl'}"></h2>
+        </div>
+        <div>
+            <button>CHECK OUT</button>
+        </div>
+    </div>
+</div>
+
+<div th:if="${#lists.isEmpty(cartItems)}">
+    <h3>You have not chosen any products yet.</h3>
+</div>
+
+
+<hr/>
+
+<a class="reactives-page" th:href="@{/medicines}">REACTIVES</a>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.pharma.reactives.controllers;
 
+import com.pharma.reactives.models.CartItem;
 import com.pharma.reactives.models.Medicine;
 import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.services.MedicineService;
@@ -64,6 +65,7 @@ public class MedicineController {
     public String getById(@PathVariable("id") int id,
                           Model model){
         model.addAttribute("medicine", medicineService.findOne(id));
+        model.addAttribute("cartItem", new CartItem());
         return "medicines/show";
     }
 
@@ -101,9 +103,6 @@ public class MedicineController {
             model.addAttribute("reactiveList", reactiveService.findAll());
             return "/medicines/new";
         }
-
-        reactive.setStock(reactive.getStock() - medicine.getDose());
-        reactiveService.update(reactive.getId(), reactive);
 
         medicine.setReactive(reactive);
         medicineService.save(medicine);

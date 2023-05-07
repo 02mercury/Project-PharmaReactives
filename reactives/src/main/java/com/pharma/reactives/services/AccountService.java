@@ -2,8 +2,11 @@ package com.pharma.reactives.services;
 
 import com.pharma.reactives.models.Person;
 import com.pharma.reactives.repositories.PeopleRepository;
+import com.pharma.reactives.security.PersonDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,5 +75,26 @@ public class AccountService {
     @Transactional
     public void delete(int id){
         peopleRepository.deleteById(id);
+    }
+
+    public Person getCurrentlyLoggedInUser(Authentication authentication) {
+
+        if (authentication == null)
+            return null;
+
+        Person user = null;
+        Object principal = authentication.getPrincipal();
+
+
+        if (principal == null) {
+            return null;
+        }
+
+        if (principal instanceof PersonDetails) {
+            user = ((PersonDetails) principal).getPerson();
+        }
+
+
+        return user;
     }
 }

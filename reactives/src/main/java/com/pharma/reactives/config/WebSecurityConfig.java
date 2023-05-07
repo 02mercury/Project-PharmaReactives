@@ -39,6 +39,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/medicines/{id}/edit", "/medicines/new").hasAnyRole("ADMIN", "EMPLOYEE")
                     .requestMatchers("/medicines", "/medicines/{id}").hasAnyRole("ADMIN", "USER", "EMPLOYEE")
 
+                    .requestMatchers("/cart").authenticated()
 
                 .requestMatchers("/auth/login", "/auth/registration", "/error").permitAll()
                     .anyRequest().hasAnyRole("USER", "ADMIN", "EMPLOYEE")

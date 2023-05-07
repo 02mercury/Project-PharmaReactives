@@ -4,11 +4,14 @@ import com.pharma.reactives.models.Person;
 import com.pharma.reactives.repositories.PeopleRepository;
 import com.pharma.reactives.security.PersonDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Clasa care implementeaza interfata UserDetailsService, fiind responsabila pentru incarcarea
@@ -38,11 +41,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        Person person = peopleRepository.
+        Optional<Person> person = peopleRepository.
                 findByUsername(username);
-        if(person == null)
+        if(person.isEmpty())
             throw new UsernameNotFoundException("User not found");
 
-        return new PersonDetails(person);
+        return new PersonDetails(person.get());
     }
 }
