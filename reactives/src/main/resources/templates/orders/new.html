@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>New Order</title>
+
+  <style>
+    body {
+      font-family: "Montserrat SemiBold", sans-serif;
+      font-size: 14px;
+    }
+
+    header {
+      background-color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    header img {
+      height: 200px;
+    }
+
+    .product-info a{
+      display: block;
+      height: 100%;
+      color: #0098DA;
+    }
+
+    .reactives-page {
+      display: block;
+      margin: auto;
+      background-color: #1E2022;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      width: 100px;
+      margin-top: 25px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0098DA;
+    }
+
+    .col img{
+      width: 64px;
+      border: 1px solid #cccccc;
+      background: linear-gradient(to bottom right, rgba(17, 171, 220, 0.2), rgb(214, 218, 255));
+      padding: 10px 10px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .container {
+      margin: auto;
+      width: 100%;
+      max-width: 460px;
+      border-radius: 5px;
+      padding: 40px 20px;
+
+      border: 1px solid #cccccc;
+
+      border-bottom: 3px solid #ccc;
+
+      margin-top: 10px;
+      margin-bottom: 50px;
+    }
+
+    input[type=text] {
+      width: 60%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      margin: 0 auto;
+      margin-top: 10px;
+      font-family: "Montserrat SemiBold", sans-serif;
+      font-weight: bold;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+      color: #0098DA;
+
+    }
+
+    label, .error {
+      margin-left: 80px;
+    }
+
+
+
+    input {
+      display: block;
+    }
+
+    .cvv-expiry {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-left: 80px;
+    }
+
+    .cvv, .expiry {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .expiry {
+      padding-left: 20px;
+    }
+
+    .cvv input, .expiry input {
+      width: 117px;
+    }
+
+    .checkout-btn {
+      background-color: #0098DA;
+      border: none;
+      color: white;
+      padding: 10px 32px;
+      text-decoration: none;
+      margin: 0 auto;
+      cursor: pointer;
+      margin-top: 15px;
+
+      font-family: "Montserrat SemiBold", sans-serif;
+      letter-spacing: 0.075em;
+      font-size: 14px;
+
+    }
+
+    .text-danger {
+      color: #ff0033;
+      display: block;
+      margin: auto;
+      text-align: center;
+      background-color: #ffcdd2;
+      padding: 10px 5px;
+      border-radius: 5px;
+      font-weight: bold;
+      width: 63%;
+      margin-top: 10px;
+    }
+
+    .text-danger-expiration {
+      color: #ff0033;
+      display: block;
+      margin: auto;
+      text-align: center;
+      background-color: #ffcdd2;
+      padding: 10px 5px;
+      border-radius: 5px;
+      font-weight: bold;
+      width: 130px;
+      margin-top: 10px;
+    }
+
+    .text-danger-cvv {
+      color: #ff0033;
+      display: block;
+      margin: auto;
+      text-align: center;
+      background-color: #ffcdd2;
+      padding: 10px 5px;
+      border-radius: 5px;
+      font-weight: bold;
+      width: 130px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+
+<hr/>
+
+<h2>Make your payment</h2>
+
+<div class="container">
+    <form th:method="POST" th:action="@{/orders}" th:object="${deliveryInfo}">
+        <label for="delivery_address">Delivery Address:</label>
+        <input type="text" th:field="*{delivery_address}" id="delivery_address"/>
+        <div class="error" style="color:red" th:if="${#fields.hasErrors('delivery_address')}" th:errors="*{delivery_address}">error</div>
+
+        <label for="ccNumber">Credit Card Number:</label>
+        <input type="text" th:field="*{ccNumber}" id="ccNumber"/>
+        <div class="error" style="color:red" th:if="${#fields.hasErrors('ccNumber')}" th:errors="*{ccNumber}">error</div>
+
+        <label for="ccExpiration">Expiration:</label>
+        <input type="text" th:field="*{ccExpiration}" id="ccExpiration"/>
+        <div class="error" style="color:red" th:if="${#fields.hasErrors('ccExpiration')}" th:errors="*{ccExpiration}">error</div>
+
+        <label for="ccCVV">CVV:</label>
+        <input type="text" th:field="*{ccCVV}" id="ccCVV"/>
+        <div class="error" style="color:red" th:if="${#fields.hasErrors('ccCVV')}" th:errors="*{ccCVV}">error</div>
+
+        <input class="checkout-btn" type="submit" value="MAKE PAYMENT"/>
+    </form>
+</div>
+
+<hr/>
+
+<a class="reactives-page" th:href="@{/cart}">SHOPPING CART</a>
+
+</body>
+</html>

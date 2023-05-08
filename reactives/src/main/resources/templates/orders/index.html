@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping cart</title>
+
+  <style>
+    body {
+      font-family: "Montserrat SemiBold", sans-serif;
+      font-size: 14px;
+    }
+
+    header {
+      background-color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    header img {
+      height: 200px;
+    }
+
+    .product-info a{
+      display: block;
+      height: 100%;
+      color: #0098DA;
+    }
+
+    .reactives-page {
+      display: block;
+      margin: auto;
+      background-color: #1E2022;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      width: 100px;
+      margin-top: 25px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0098DA;
+    }
+
+    .row{
+      margin: 0 auto;
+      display: block;
+      width: 500px;
+    }
+
+    .row-border-rounded {
+      border-radius: 5px;
+      border: 1px solid #cccccc;
+      padding: 10px 20px;
+
+      display: flex;
+
+      justify-content: flex-start;
+      align-items: center;
+      border-bottom: 3px solid #ccc;
+    }
+
+    .col img{
+      width: 64px;
+      border: 1px solid #cccccc;
+      background: linear-gradient(to bottom right, rgba(17, 171, 220, 0.2), rgb(214, 218, 255));
+      padding: 10px 10px;
+    }
+
+    .medicine-name{
+      width: 200px;
+      text-align: left;
+      padding-bottom: 10px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .empty-cart {
+      text-align: center;
+    }
+
+    .price {
+      font-weight: bold;
+      background-color: #0ea96b;
+      color: white;
+      padding: 0 10px;
+    }
+
+    .totalPrice {
+      font-size: 22px;
+
+      padding: 0 10px;
+    }
+
+    .status {
+      width: 15px;
+      margin-left: 0px;
+    }
+
+    .col {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .btn-delete {
+      background-color: #ED504E;
+      border: none;
+      font-family: "Montserrat SemiBold", sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: white;
+      padding: 5px 10px;
+      text-decoration: none;
+
+      cursor: pointer;
+
+      border-radius: 5px;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .btn-delete:hover{
+      background-color: #d53a3a;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <img th:src="@{/images/PharmaReactives-logo.png}"/>
+</header>
+
+<hr/>
+
+<h2>Here are your orders, [[${#authentication.principal.username}]]</h2>
+
+<div class="row">
+  <div class="col">
+    <th:block th:each="item, status : ${orders}">
+      <div class="row-border-rounded" th:with="medicine = ${item.medicine}">
+        <div class="status">
+          <div>[[${status.count}]]</div>
+        </div>
+        <div class="col">
+          <img th:src="@{/images/medicine-icon.png}"/>
+        </div>
+        <div class="col">
+          <div class="medicine-name">
+            <a th:href="@{/medicines/{id}(id=${medicine.getId()})}">
+              <b>[[${medicine.name}]]</b>
+            </a>
+          </div>
+          <div>
+            <span th:text="${item.quantity}"/>
+            <span>x</span>
+            <span>[[${medicine.price}]] mdl</span>
+
+          </div>
+          <div>
+            <span>= </span><span class="price" th:text="${item.getPrice() + ' mdl'}">0.0 mdl</span>
+
+          </div>
+        </div>
+      </div>
+      <div class="row">&nbsp;</div>
+    </th:block>
+  </div>
+</div>
+
+<div th:if="${#lists.isEmpty(orders)}">
+  <h3 class="empty-cart">You have not placed any orders yet.</h3>
+</div>
+
+
+<hr/>
+
+<a class="reactives-page" th:href="@{/medicines}">MEDICINES</a>
+
+</body>
+</html>
