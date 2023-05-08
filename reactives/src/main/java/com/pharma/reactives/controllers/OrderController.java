@@ -47,7 +47,15 @@ public class OrderController {
     }
 
     @GetMapping("/new")
-    public String create(@ModelAttribute("deliveryInfo") Order order){
+    public String create(@ModelAttribute("deliveryInfo") Order order,
+                         Authentication authentication){
+        Person user = accountService.getCurrentlyLoggedInUser(authentication);
+        List<CartItem> cartItems = cartService.listCartItems(user);
+
+        if(cartItems.isEmpty()){
+            return "redirect:/orders";
+        }
+
         return "orders/new";
     }
 

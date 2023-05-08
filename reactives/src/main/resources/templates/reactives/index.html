@@ -313,9 +313,11 @@
 </div>
 
 <div class="employee" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE', 'USER')">
-    <a href="/cart">Shopping cart</a>
-
-    <a href="/medicines">List of medicines</a>
+    <a th:href="@{/cart}">Shopping Cart</a>
+    <br/>
+    <a th:href="@{/orders}">My Orders</a>
+    <br/>
+    <a th:href="@{/medicines}">Medicines Page</a>
     <br/>
 </div>
 

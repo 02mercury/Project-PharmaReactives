@@ -53,13 +53,7 @@ public class ShoppingCartController {
 
         model.addAttribute("authentication", authentication);
         model.addAttribute("totalPrice", totalPrice);
-
-        // verificam daca utilizatorul are itemi in cos
-        if(cartItems.isEmpty()) {
-            model.addAttribute("message", "Nu exista itemi in cos!");
-        } else {
-            model.addAttribute("cartItems", cartItems);
-        }
+        model.addAttribute("cartItems", cartItems);
 
         return "cart/shopping_cart";
     }

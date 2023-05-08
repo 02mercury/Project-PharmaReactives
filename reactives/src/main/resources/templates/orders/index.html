@@ -27,21 +27,6 @@
       color: #0098DA;
     }
 
-    .reactives-page {
-      display: block;
-      margin: auto;
-      background-color: #1E2022;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      font-size: 12px;
-      width: 100px;
-      margin-top: 25px;
-    }
-
     a {
       text-decoration: none;
       color: #0098DA;
@@ -50,7 +35,7 @@
     .row{
       margin: 0 auto;
       display: block;
-      width: 500px;
+      width: 600px;
     }
 
     .row-border-rounded {
@@ -93,12 +78,6 @@
       padding: 0 10px;
     }
 
-    .totalPrice {
-      font-size: 22px;
-
-      padding: 0 10px;
-    }
-
     .status {
       width: 15px;
       margin-left: 0px;
@@ -109,25 +88,16 @@
       margin: 0 auto;
     }
 
-    .btn-delete {
-      background-color: #ED504E;
-      border: none;
-      font-family: "Montserrat SemiBold", sans-serif;
-      font-size: 12px;
-      letter-spacing: 1px;
-      color: white;
-      padding: 5px 10px;
-      text-decoration: none;
-
-      cursor: pointer;
-
-      border-radius: 5px;
-      border-bottom: 2px solid #ccc;
+    .date {
+      text-align: center;
     }
 
-    .btn-delete:hover{
-      background-color: #d53a3a;
+    .link {
+      margin: 0 auto;
+      display: block;
+      text-align: center;
     }
+
 
   </style>
 </head>
@@ -168,6 +138,10 @@
 
           </div>
         </div>
+        <div class="col">
+          <p>Placed at:</p>
+          <p class="date" th:text="${#strings.substring(item.placed_at, 0, 16)}">2023-05-08 20:47</p>
+        </div>
       </div>
       <div class="row">&nbsp;</div>
     </th:block>
@@ -181,7 +155,12 @@
 
 <hr/>
 
-<a class="reactives-page" th:href="@{/medicines}">MEDICINES</a>
+<a class="link" th:href="@{/cart}">Shopping Cart</a>
+<br/>
+<a class="link" th:href="@{/reactives}">Reactives Page</a>
+<br/>
+<a class="link" th:href="@{/medicines}">Medicines Page</a>
+<br/>
 
 </body>
 </html>
