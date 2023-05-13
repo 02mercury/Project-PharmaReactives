@@ -1,11 +1,7 @@
 package com.pharma.reactives.services;
 
-import com.pharma.reactives.models.CartItem;
-import com.pharma.reactives.models.Medicine;
-import com.pharma.reactives.models.Order;
-import com.pharma.reactives.models.Person;
+import com.pharma.reactives.models.*;
 import com.pharma.reactives.repositories.CartItemRepository;
-import com.pharma.reactives.repositories.MedicineRepository;
 import com.pharma.reactives.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,15 +17,19 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final CartItemRepository cartRepository;
+    private final MedicineService medicineService;
+    private final ReactiveService reactiveService;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, CartItemRepository cartRepository) {
+    public OrderService(OrderRepository orderRepository, CartItemRepository cartRepository, MedicineService medicineService, ReactiveService reactiveService) {
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
+        this.medicineService = medicineService;
+        this.reactiveService = reactiveService;
     }
 
     public List<Order> orderList(Person user) {
@@ -55,6 +55,12 @@ public class OrderService {
             order.setQuantity(cartItem.getQuantity());
             order.setPrice(cartItem.getSubTotal());
             orderRepository.save(order);
+            // scad din stock
+            Reactive reactiveUpdated = medicine.getReactive();
+
+            reactiveUpdated.setStock(reactiveUpdated.getStock() - (medicine.getDose() * order.getQuantity()));
+
+            reactiveService.update(reactiveUpdated.getId(), reactiveUpdated);
         }
 
         cartRepository.deleteAll(cartItems);

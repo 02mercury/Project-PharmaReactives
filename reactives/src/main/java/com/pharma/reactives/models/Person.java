@@ -55,10 +55,7 @@ public class Person {
      * Campul password este parola utilizatorului si trebuie sa respecte un anumit format de validare.
      */
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",
-            message = "The Password policy is: At least one uppercase English letter, " +
-                    "at least one lowercase English letter, " +
-                    "at least one digit, " +
-                    "at least one special character [#?!@$%^&*-]")
+            message = "Password policy")
     @Column(name = "password", nullable = false)
     private String password;
 

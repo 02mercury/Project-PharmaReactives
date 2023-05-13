@@ -53,5 +53,9 @@ public class MedicineValidator implements Validator {
             errors.rejectValue("dose", "", "Dose is greater than available stock. Max value is " +
                     Objects.requireNonNull(reactive).getStock() + "mg");
         }
+
+        if(medicine.getPrice() < 1){
+            errors.rejectValue("price", "", "Price should be grater than 1 mdl");
+        }
     }
 }

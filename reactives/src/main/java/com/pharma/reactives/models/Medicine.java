@@ -37,14 +37,14 @@ public class Medicine {
     /**
      * Doza medicamentului, aceasta trebuie sa fie mai mare decat 0mg.
      */
-    @Min(value = 0, message = "Dose should be grater than 0mg")
+    @Min(value = 1, message = "Dose should be grater than 1 mg")
     @Column(name = "dose")
     private double dose;
 
     /**
-     * Pretul medicamentului, acesta trebuie sa fie mai mare decat 0$.
+     * Pretul medicamentului, acesta trebuie sa fie mai mare decat 1 mdl.
      */
-    @Min(value = 0, message = "Price should be grater than 0$")
+    @Min(value = 1, message = "Price should be grater than 1 mdl")
     @Column(name = "price")
     private double price;
 
@@ -65,4 +65,7 @@ public class Medicine {
 
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
+
+    @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
 }

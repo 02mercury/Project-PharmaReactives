@@ -6,6 +6,7 @@ import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +43,8 @@ public class ReactivesController {
      * @return "reactives/index" - pagina HTML pentru afisarea tuturor elementelor Reactive
      */
     @GetMapping()
-    public String getAll(Model model){
-        return listByPage(model, 1,"name", "asc", 5);
+    public String getAll(Model model, Authentication authentication){
+        return listByPage(model, authentication, 1,"id", "desc", 5);
     }
 
     /**
@@ -58,6 +59,7 @@ public class ReactivesController {
      */
     @GetMapping("/page/{pageNumber}")
     public String listByPage(Model model,
+                             Authentication authentication,
                              @PathVariable("pageNumber") int currentPage,
                              @PathParam("sortField") String sortField,
                              @PathParam("sortDir") String sortDir,
@@ -75,6 +77,8 @@ public class ReactivesController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
 
+        model.addAttribute("authentication", authentication);
+
         model.addAttribute("size", size);
 
         String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
@@ -84,27 +88,17 @@ public class ReactivesController {
     }
 
     /**
-     * Metoda HTTP GET pentru a obtine un element Reactive din baza de date in functie de id.
-     *
-     * @param id - id-ul elementului Reactive
-     * @param model - Model pentru a adauga datele Reactive la vizualizarea HTML
-     * @return "reactives/show" - pagina HTML pentru afisarea detaliilor unui element Reactive
-     */
-    @GetMapping("/{id}")
-    public String getById(@PathVariable("id") int id,
-                          Model model){
-        model.addAttribute("reactive", reactiveService.findOne(id));
-        return "reactives/show";
-    }
-
-    /**
      * Metoda de afisare a paginii de adaugare a unui reactiv nou.
      *
      * @param reactive Entitatea Reactive care urmeaza sa fie adaugata.
      * @return String cu numele paginii de adaugare.
      */
     @GetMapping("/new")
-    public String newReactive(@ModelAttribute("reactive") Reactive reactive){
+    public String newReactive(Model model,
+                              Authentication authentication){
+
+        model.addAttribute("reactive", new Reactive());
+        model.addAttribute("authentication", authentication);
         return "reactives/new";
     }
 
@@ -129,7 +123,9 @@ public class ReactivesController {
      */
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id,
-                       Model model){
+                       Model model,
+                       Authentication authentication){
+        model.addAttribute("authentication", authentication);
         model.addAttribute("reactive", reactiveService.findOne(id));
         return "reactives/edit";
     }

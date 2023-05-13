@@ -23,7 +23,7 @@
       <div class="collapse navbar-collapse" id="navmenu">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a href="/reactives" class="nav-link">Reactives</a>
+            <a href="/reactives" class="nav-link active">Reactives</a>
           </li>
           <li class="nav-item">
             <a href="/medicines" class="nav-link">Medicines</a>
@@ -60,59 +60,65 @@
   <section class="text-light p-5 text-left text-sm-start" style="background-color: #252526">
     <div class="container">
       <div class="d-sm-flex align-items-center justify-content-between" >
-
-        <h1>My <span style="color: #62B2e9">Orders</span> </h1>
+        <h1>Edit a <span style="color: #62B2e9">Reactive</span> </h1>
         <p class="lead my-4">
-          Here you can see the information about all your orders.
+          Here you can edit a reactive that already exists in stock.
         </p>
       </div>
     </div>
   </section>
 </header>
 
-<main class="flex-grow-1">
-
-  <section style="background-color: #448cc2">
-    <div class="container text-center">
-      <p class="lead p-2 text-light">This is all your Orders, [[${#authentication.principal.username}]]</p>
-    </div>
-  </section>
-
-  <section class="p-5">
-    <div class="container">
-
-        <div class="card mb-2 px-2 m-auto" style="max-width: 900px;" th:each="item : ${orders}">
-          <div class="row g-0 align-items-center col-12" th:with="medicine = ${item.medicine}">
-            <div class="col-md-3 text-center">
-              <img th:src="@{/images/medicine-icon.png}" class="border p-2" style="width: 128px;">
+<main class="flex-grow-1" style="background-color: #448cc2">
+  <!-- Card -->
+  <div class="container p-5">
+    <div class="row">
+      <div>
+        <div class="card border-0 shadow m-auto" style="width: 30rem;">
+          <div class="card-body">
+            <div class="text-center pt-3">
+              <i class="bi bi-file-earmark-medical h1"></i>
+              <p class="h2 text-dark">Editing this Reactive: </p>
             </div>
-            <div class="col-md-9">
-              <div class="card-body">
-                <a th:href="@{/medicines/{id}(id=${medicine.getId()})}" class="h5 card-title" style="color: #448cc2; text-decoration: none;">
-                  [[${medicine.name}]]
-                </a>
-                <br>
-                <p class="h6 card-text d-inline" th:text="${item.quantity}">5</p>
-                <p class="h6 card-text d-inline">x</p>
-                <p class="h6 card-text d-inline">[[${medicine.price}]] mdl</p>
-                <hr class="mb-0">
-                <p class="h6 card-text mt-1 d-inline text-success">Total: <p class="text-success h6 card-text d-inline" th:text="${item.getPrice() + ' mdl'}">15.0 mdl</p></p>
+            <form th:method="PATCH" th:action="@{/reactives/{id}(id=${reactive.getId()})}" th:object="${reactive}" style="width: 80%" class="m-auto">
+              <p class="lead fw-bold text-center" style="color: #448cc2" th:text="${reactive.getName()}">Reactive name</p>
 
-                <div class="text-end">
-                  <p class="small d-inline">Placed at: </p>
-                  <p class="small d-inline" th:text="${#strings.substring(item.placed_at, 0, 16)}">2023-05-08 20:47</p>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="stock" class="mx-2 mt-2 mb-0 h6 text-dark">Stock (mg)</label>
+                  <input id="stock" type="text" th:field="*{stock}" class="form-control bg-light rounded-0 my-2 py-2 text-light"
+                         style="border: 1px solid #ccc;">
+                  <div class="alert alert-danger rounded-0 bg-light"
+                       style="background-color: #252526; border-color: #DC3545;"
+                       role="alert" th:if="${#fields.hasErrors('stock')}">
+                    <i class="bi bi-exclamation-circle-fill d-inline text-danger"></i>
+                    <p class="d-inline text-danger px-2" th:errors="*{stock}">Stock Error</p>
+                  </div>
                 </div>
 
+                <div class="col-md-6">
+                  <label for="price" class="mx-2 mt-2 mb-0 h6 text-dark">Price (mdl)</label>
+                  <input id="price" type="text" th:field="*{price}" class="form-control bg-light rounded-0 my-2 py-2 text-light"
+                         style="border: 1px solid #ccc;">
+                  <div class="alert alert-danger rounded-0 bg-light"
+                       style="background-color: #252526; border-color: #DC3545;"
+                       role="alert" th:if="${#fields.hasErrors('price')}">
+                    <i class="bi bi-exclamation-circle-fill d-inline text-danger"></i>
+                    <p class="d-inline text-danger px-2" th:errors="*{price}">Price Error</p>
+                  </div>
+                </div>
               </div>
-            </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn col-12 rounded-0 text-light mt-4 mb-4" style="background-color: #448cc2;">Edit</button>
+              </div>
+
+            </form>
           </div>
         </div>
-
-      <div th:if="${#lists.isEmpty(orders)}">
-        <p class="lead text-center">You have not placed any orders yet</p>
       </div>
     </div>
-
+  </div>
   </section>
 </main>
 

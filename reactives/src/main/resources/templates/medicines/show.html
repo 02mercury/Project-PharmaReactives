@@ -3,245 +3,141 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Medicine</title>
-    <style>
-        body {
-            font-family: "Montserrat SemiBold", sans-serif;
-            letter-spacing: 0.075em;
-        }
-
-        header {
-            background-color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        header img {
-            height: 200px;
-        }
-
-        .wrapper {
-            margin: 0 auto;
-            margin-top: 50px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 700px;
-            display: flex;
-            box-shadow: 0 5px 10px 0 rgba(69, 90, 100, 0.16);
-        }
-
-        .wrapper .left {
-            width: 35%;
-            background: linear-gradient(to bottom right, rgba(17, 171, 220, 0.2), rgb(214, 218, 255));
-            padding: 30px 25px;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            text-align: center;
-            color: #fff;
-            font-size: 20px;
-            border: 1px solid #ccc;
-        }
-
-        .wrapper .left img {
-            margin-top: 30px;
-        }
-
-        .wrapper .right {
-            width: 65%;
-            background-color: #ffffff;
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-            padding:25px;
-            border: 1px solid #cccccc;
-        }
-
-        .wrapper .right .info,
-        .wrapper .right .status {
-            margin-bottom: 25px;
-
-        }
-
-        .wrapper .right .info h3,
-        .wrapper .right .status h3{
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #1E2022;
-            letter-spacing: 5px;
-            color: #1E2022;
-            text-transform: uppercase;
-        }
-
-        .wrapper .right .info_data,
-        .wrapper .right .status-data{
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .wrapper .right .info_data .data,
-        .wrapper .right .status-data .data{
-            width: 60%;
-        }
-
-        .wrapper .right .info_data .data label,
-        .wrapper .right .status-data .data label{
-            color: #353c4e;
-            margin-bottom: 5px;
-        }
-
-        .wrapper .right .info_data .data p,
-        .wrapper .right .status-data .data p{
-            font-size: 14px;
-            font-weight: bold;
-            background-color: #dddddd;
-            padding: 5px;
-            margin-bottom: 0px;
-        }
-
-        .action {
-            margin: auto;
-            margin-top: 0px;
-            margin-bottom: 50px;
-            width: 250px;
-
-            display: flex;
-            justify-content: space-between;
-
-
-        }
-
-        .edit-button {
-            display: inline-block;
-            background-color: #0098DA;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            width: 80px;
-            margin-right: 5px;
-            text-decoration: none;
-        }
-
-        input[type=submit] {
-            background-color: #ED504E;
-            border: none;
-            color: white;
-            padding: 10px 30px;
-            text-decoration: none;
-            margin: 0 auto;
-            cursor: pointer;
-
-            margin-right: 5px;
-
-            font-family: "Montserrat SemiBold", sans-serif;
-            letter-spacing: 0.075em;
-            font-size: 12px;
-        }
-
-        input[type=button] {
-            background-color: #1E2022;
-            border: none;
-            color: white;
-            padding: 10px 32px;
-            text-align: center;
-            text-decoration: none;
-
-            margin: 0 auto;
-            display: block;
-            cursor: pointer;
-
-            font-family: "Montserrat SemiBold", sans-serif;
-            letter-spacing: 0.075em;
-            font-size: 12px;
-
-            margin-bottom: 25px;
-            margin-top: 25px;
-        }
-
-        input[type=number] {
-            width: 60px;
-            padding: 6px 12px;
-            font-size: 16px;
-            line-height: 1.42857143;
-            color: #555;
-            background-color: #fff;
-            background-image: none;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-        }
-
-    </style>
+    <title>Medicines</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+
 <header>
-    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+    <!--  Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #1e1e1e">
+        <div class="container">
+            <a href="/reactives" class="navbar-brand" style="color: #62B2e9">Pharma-Reactive</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/reactives" class="nav-link">Reactives</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/medicines" class="nav-link active">Medicines</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/accounts" class="nav-link" sec:authorize="hasAnyRole('ADMIN')">Accounts</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown" style="background-color: #252526">
+                        <a class="nav-link dropdown-toggle text-light px-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:inline="text">
+                            <i class="bi bi-person-fill me-2"></i>
+                            [[${authentication.getName()}]]
+                        </a>
+                        <ul class="dropdown-menu text-center">
+                            <li><a class="dropdown-item" href="/cart">Shopping Cart</a></li>
+                            <li><a class="dropdown-item" href="/orders">My Orders</a></li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <form th:action="@{/logout}" th:method="POST">
+                                    <input class="btn btn-danger" type="submit" value="Logout"/>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--  Showcase -->
+    <section class="text-light p-5 text-left text-sm-start" style="background-color: #252526">
+        <div class="container">
+            <div class="d-sm-flex align-items-center justify-content-between" >
+                <h1>Information about a <span style="color: #62B2e9">Medicine</span> </h1>
+                <p class="lead my-4">
+                    Here you can see the information about the medicine and add it to your shopping cart, if you want.
+                </p>
+            </div>
+        </div>
+    </section>
 </header>
-<hr/>
 
-<div class="wrapper">
+<main class="flex-grow-1" style="background-color: #448cc2">
+    <!-- Card -->
+    <div class="container p-5 ">
+        <div class="card col-lg-6 col-sm-12 m-auto p-2">
+            <div class="text-center pt-2">
+                <img th:src="@{/images/medicine-icon.png}" width="200px" >
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${medicine.getName()}">Medicine name</h5>
+                <p class="card-text">
+                    Medicines are pharmaceutical products used to prevent,
+                    treat or ameliorate various conditions and diseases. They
+                    contain active substances that act on the body in different
+                    ways, aiming to restore the patient's health and well-being.
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <p class="d-inline">Reactive: </p>
+                    <p class="h6 d-inline" th:text="${medicine.getReactive().getName()}">Reactive name</p>
+                </li>
+                <li class="list-group-item">
+                    <p class="d-inline">Dose: </p>
+                    <p class="h6 d-inline" th:text="${medicine.getDose() + ' mg'}">100 mg</p>
+                </li>
+                <li class="list-group-item">
+                    <p class="d-inline">Price: </p>
+                    <p class="h6 d-inline" th:text="${medicine.getPrice() + ' mg'}">10 mdl</p>
+                </li>
+                <li class="list-group-item text-success">
+                    <p class="h6 d-inline">Stock: </p>
+                    <p class="h6 d-inline" th:text="${medicine.reactive.stock div medicine.dose}">110</p>
+                </li>
 
-    <div class="left">
-        <img th:src="@{/images/medicine-icon.png}" alt="medicine" class="src" width="200">
-    </div>
+                <li class="list-group-item ">
+                    <form class="p-2 text-center" th:method="POST" th:action="@{/cart/add/{id}(id=${medicine.id})}"
+                          th:object="${cartItem}">
 
-    <div class="right">
-        <div class="info">
-            <h3>Medicine information</h3>
-            <div class="info_data">
-                <div class="data">
-                    <label>Name: </label>
-                    <p th:text="${medicine.getName()}">VALUE</p>
-                </div>
+                        <i class="bi bi-cart-plus-fill"></i>
+                        <p class="h6 d-inline">Add to My Shopping Cart: </p>
+                        <input type="number" class="btn btn-number rounded-0"
+                               style="border-color: #ccc; width: 5rem;"
+                               th:field="*{quantity}" min="1" th:max="${medicine.reactive.stock div medicine.dose}"  value="1">
 
-                <br/>
-                <div class="data">
-                    <label>Price: </label>
-                    <p th:text="${medicine.getPrice()}">VALUE</p>
-                </div>
+                        <button class="btn btn-danger rounded-0">Add</button>
+                    </form>
+                </li>
+            </ul>
+
+            <div class="card-body text-start mb-2 text-center" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+                <a th:href="@{/medicines/{id}/edit(id=${medicine.getId()})}" class="btn btn-primary rounded-0 d-inline py-2 px-5">Edit</a>
+                <form class="d-inline" th:method="DELETE" th:action="@{/medicines/{id}(id=${medicine.getId()})}">
+                    <button class="btn btn-danger btn-sm rounded-0 d-inline py-2 px-5" type="submit">Delete</button>
+                </form>
             </div>
         </div>
-
-        <div class="status">
-            <h3>Composition:</h3>
-            <div class="status-data">
-                <div class="data">
-                    <label>Reactive: </label>
-                    <p th:text="${medicine.getReactive().getName()}">VALUE</p>
-                </div>
-                <div class="data">
-                    <label>Dose (mg): </label>
-                    <p th:text="${medicine.getDose()}">VALUE</p>
-                </div>
-            </div>
-        </div>
-        <hr/>
-        <form th:method="POST" th:action="@{/cart/add/{id}(id=${medicine.id})}" th:object="${cartItem}">
-            <p>Add to your cart:</p>
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" th:field="*{quantity}" min="1" th:max="${medicine.reactive.stock div medicine.dose}"  value="1">
-
-            <input type="submit" value="ADD">
-        </form>
     </div>
-</div>
+    </section>
+</main>
 
-<div class="action" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-    <a th:href="@{/medicines/{id}/edit(id=${medicine.getId()})}" class="edit-button">EDIT</a>
+<!-- Footer -->
+<footer class="p-5 bg-dark text-light text-center position-relative">
+    <div class="container">
+        <p class="lead">Copyright &copy; 2023 Practica Anul 4</p>
+    </div>
+    <a href="#" class="position-absolute bottom-0 end-0 p-5">
+        <i class="bi bi-arrow-up-circle h1" style="color: #ccc"></i>
+    </a>
+</footer>
 
-    <form th:method="DELETE" th:action="@{/medicines/{id}(id=${medicine.getId()})}" class="delete-button">
-        <input type="submit" value="DELETE">
-    </form>
-</div>
-<hr/>
-<form>
-    <input type="button" value="BACK" onclick="history.back()"/>
-</form>
 </body>
 </html>

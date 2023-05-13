@@ -61,9 +61,9 @@
     <div class="container">
       <div class="d-sm-flex align-items-center justify-content-between" >
 
-        <h1>My <span style="color: #62B2e9">Orders</span> </h1>
+        <h1>My <span style="color: #62B2e9">Shopping Cart</span> </h1>
         <p class="lead my-4">
-          Here you can see the information about all your orders.
+          Here you can see the information about the items in your shopping cart.
         </p>
       </div>
     </div>
@@ -74,42 +74,51 @@
 
   <section style="background-color: #448cc2">
     <div class="container text-center">
-      <p class="lead p-2 text-light">This is all your Orders, [[${#authentication.principal.username}]]</p>
+      <p class="lead p-2 text-light">This is your Shopping Cart, [[${#authentication.principal.username}]]</p>
     </div>
   </section>
 
   <section class="p-5">
     <div class="container">
 
-        <div class="card mb-2 px-2 m-auto" style="max-width: 900px;" th:each="item : ${orders}">
-          <div class="row g-0 align-items-center col-12" th:with="medicine = ${item.medicine}">
-            <div class="col-md-3 text-center">
-              <img th:src="@{/images/medicine-icon.png}" class="border p-2" style="width: 128px;">
-            </div>
-            <div class="col-md-9">
-              <div class="card-body">
-                <a th:href="@{/medicines/{id}(id=${medicine.getId()})}" class="h5 card-title" style="color: #448cc2; text-decoration: none;">
-                  [[${medicine.name}]]
-                </a>
-                <br>
-                <p class="h6 card-text d-inline" th:text="${item.quantity}">5</p>
-                <p class="h6 card-text d-inline">x</p>
-                <p class="h6 card-text d-inline">[[${medicine.price}]] mdl</p>
-                <hr class="mb-0">
-                <p class="h6 card-text mt-1 d-inline text-success">Total: <p class="text-success h6 card-text d-inline" th:text="${item.getPrice() + ' mdl'}">15.0 mdl</p></p>
-
-                <div class="text-end">
-                  <p class="small d-inline">Placed at: </p>
-                  <p class="small d-inline" th:text="${#strings.substring(item.placed_at, 0, 16)}">2023-05-08 20:47</p>
-                </div>
-
-              </div>
+      <div class="card mb-3 m-auto shadow p-3" style="max-width: 700px;" th:each="item : ${cartItems}">
+        <div class="row g-0 align-items-center" th:with="medicine = ${item.medicine}">
+          <div class="col-md-3">
+            <img th:src="@{/images/medicine-icon.png}" class="border p-2" style="width: 64px">
+          </div>
+          <div class="col-md-6">
+            <div class="card-body">
+              <a th:href="@{/medicines/{id}(id=${medicine.getId()})}" class="h5 card-title" style="color: #448cc2; text-decoration: none;">
+                [[${medicine.name}]]
+              </a>
+              <br>
+              <p class="h6 card-text d-inline" th:text="${item.quantity}">5 x</p>
+              <p class="h6 card-text d-inline">[[${medicine.price}]] mdl</p>
+              <hr class="mb-0">
+              <p class="h6 card-text mt-1 d-inline text-success">Total: <p class="text-success h6 card-text d-inline" th:text="${item.getSubTotal() + ' mdl'}">15.0 mdl</p></p>
             </div>
           </div>
+          <div class="col-md-3 text-center">
+            <form th:method="DELETE" th:action="@{/cart/{id}(id=${medicine.getId()})}">
+              <button class="btn btn-outline-danger rounded-0" type="submit">Remove</button>
+            </form>
+          </div>
         </div>
+      </div>
 
-      <div th:if="${#lists.isEmpty(orders)}">
-        <p class="lead text-center">You have not placed any orders yet</p>
+      <div class="text-start m-auto" style="max-width: 700px;"
+           th:unless="${#lists.isEmpty(cartItems)}">
+
+        <p class="h5 d-inline">Estimated Total:</p>
+        <p class="mx-3 h3 d-inline" th:text="${totalPrice + ' mdl'}">135.0 mdl</p>
+        <hr>
+        <div class="text-end">
+          <a href="#" class="btn btn-dark rounded-0 px-5">Check out</a>
+        </div>
+      </div>
+
+      <div th:if="${#lists.isEmpty(cartItems)}">
+        <p class="lead text-center">You have not chosen any products yet</p>
       </div>
     </div>
 

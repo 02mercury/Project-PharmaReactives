@@ -72,6 +72,7 @@ public class MedicineService {
     public void update(int id, Medicine updatedMedicine){
         medicineRepository.findById(id).ifPresent(medicine -> {
             medicine.setPrice(updatedMedicine.getPrice());
+            medicine.setDose(updatedMedicine.getDose());
             medicineRepository.save(medicine);
         });
     }

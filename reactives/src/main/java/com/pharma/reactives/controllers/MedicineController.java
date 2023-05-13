@@ -9,6 +9,7 @@ import com.pharma.reactives.util.MedicineValidator;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,8 +50,9 @@ public class MedicineController {
      * @return String - numele view-ului corespunzator listei de medicamente
      */
     @GetMapping()
-    public String getAll(Model model){
+    public String getAll(Model model, Authentication authentication){
         model.addAttribute("medicines", medicineService.findAll());
+        model.addAttribute("authentication", authentication);
         return "medicines/index";
     }
 
@@ -63,9 +65,11 @@ public class MedicineController {
      */
     @GetMapping("/{id}")
     public String getById(@PathVariable("id") int id,
-                          Model model){
+                          Model model,
+                          Authentication authentication){
         model.addAttribute("medicine", medicineService.findOne(id));
         model.addAttribute("cartItem", new CartItem());
+        model.addAttribute("authentication", authentication);
         return "medicines/show";
     }
 
@@ -76,10 +80,12 @@ public class MedicineController {
      * @return String - numele view-ului corespunzator crearii unui medicament
      */
     @GetMapping("/new")
-    public String newMedicine(Model model){
+    public String newMedicine(Model model,
+                              Authentication authentication){
 
         model.addAttribute("medicine", new Medicine());
         model.addAttribute("reactiveList", reactiveService.findAll());
+        model.addAttribute("authentication", authentication);
         return "medicines/new";
     }
 
@@ -95,12 +101,14 @@ public class MedicineController {
     @PostMapping()
     public String create(@ModelAttribute("medicine") @Valid Medicine medicine,
                          BindingResult bindingResult,
+                         Authentication authentication,
                          Model model){
         Reactive reactive = reactiveService.findOne(medicine.getReactive().getId());
 
         medicineValidator.validate(medicine, bindingResult);
         if(bindingResult.hasErrors()) {
             model.addAttribute("reactiveList", reactiveService.findAll());
+            model.addAttribute("authentication", authentication);
             return "/medicines/new";
         }
 
@@ -120,7 +128,9 @@ public class MedicineController {
      */
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id,
-                       Model model){
+                       Model model,
+                       Authentication authentication){
+        model.addAttribute("authentication", authentication);
         model.addAttribute("medicine", medicineService.findOne(id));
         return "medicines/edit";
     }
@@ -135,8 +145,22 @@ public class MedicineController {
      */
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("medicine") Medicine medicine,
-                         @PathVariable("id") int id){
+                         @PathVariable("id") int id,
+                         BindingResult bindingResult,
+                         Authentication authentication,
+                         Model model){
+        medicine.setReactive(medicineService.findOne(id).getReactive());
+
+        medicineValidator.validate(medicine, bindingResult);
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("authentication", authentication);
+            return "/medicines/edit";
+        }
+
         medicineService.update(id, medicine);
+
+
+
         return "redirect:/medicines";
     }
 

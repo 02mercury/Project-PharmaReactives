@@ -3,6 +3,7 @@ package com.pharma.reactives.controllers;
 import com.pharma.reactives.models.Person;
 import com.pharma.reactives.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,9 @@ public class AdminController {
      * @return - pagina index a conturilor
      */
     @GetMapping
-    public String getAll(Model model){
+    public String getAll(Model model, Authentication authentication){
         model.addAttribute("users", accountService.findAll());
+        model.addAttribute("authentication", authentication);
         return "accounts/index";
     }
 

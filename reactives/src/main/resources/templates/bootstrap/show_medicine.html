@@ -26,7 +26,7 @@
             <a href="/reactives" class="nav-link">Reactives</a>
           </li>
           <li class="nav-item">
-            <a href="/medicines" class="nav-link">Medicines</a>
+            <a href="/medicines" class="nav-link active">Medicines</a>
           </li>
           <li class="nav-item">
             <a href="/accounts" class="nav-link" sec:authorize="hasAnyRole('ADMIN')">Accounts</a>
@@ -60,59 +60,68 @@
   <section class="text-light p-5 text-left text-sm-start" style="background-color: #252526">
     <div class="container">
       <div class="d-sm-flex align-items-center justify-content-between" >
-
-        <h1>My <span style="color: #62B2e9">Orders</span> </h1>
+        <h1>Edit a <span style="color: #62B2e9">Medicine</span> </h1>
         <p class="lead my-4">
-          Here you can see the information about all your orders.
+          Here you can edit a medicine that already exists in stock.
         </p>
       </div>
     </div>
   </section>
 </header>
 
-<main class="flex-grow-1">
+<main class="flex-grow-1" style="background-color: #448cc2">
+  <!-- Card -->
+  <div class="container p-5 ">
+    <div class="card col-lg-6 col-sm-12 m-auto px-5">
+      <img th:src="@{/images/medicine-icon.png}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title" th:text="${medicne.getName()}">Medicine name</h5>
+        <p class="card-text">
+          Medicines are pharmaceutical products used to prevent,
+          treat or ameliorate various conditions and diseases. They
+          contain active substances that act on the body in different
+          ways, aiming to restore the patient's health and well-being.
+        </p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <p class="d-inline">Reactive: </p>
+          <p class="h6 d-inline" th:text="${medicine.getReactive().getName()}">Reactive name</p>
+        </li>
+        <li class="list-group-item">
+          <p class="d-inline">Dose: </p>
+          <p class="h6 d-inline" th:text="${medicine.getDose() + ' mg'}">100 mg</p>
+        </li>
+        <li class="list-group-item">
+          <p class="d-inline">Price: </p>
+          <p class="h6 d-inline" th:text="${medicine.getPrice() + ' mg'}">10 mdl</p>
+        </li>
+        <li class="list-group-item text-success">
+          <p class="h6 d-inline">Stock: </p>
+          <p class="h6 d-inline" th:text="${medicine.reactive.stock div medicine.dose}">110</p>
+        </li>
 
-  <section style="background-color: #448cc2">
-    <div class="container text-center">
-      <p class="lead p-2 text-light">This is all your Orders, [[${#authentication.principal.username}]]</p>
-    </div>
-  </section>
+        <form class="p-2 border text-center" th:action="@{/cart/add/{id}(id=${medicine.id})}"
+              th:object="${cartItem}">
 
-  <section class="p-5">
-    <div class="container">
+            <i class="bi bi-cart-plus-fill"></i>
+            <p class="h6 d-inline">Add to My Shopping Cart: </p>
+            <input type="number" class="btn btn-number rounded-0"
+                   style="border-color: #ccc; width: 5rem;"
+                   th:field="*{quantity}" min="1" th:max="${medicine.reactive.stock div medicine.dose}"  value="1">
 
-        <div class="card mb-2 px-2 m-auto" style="max-width: 900px;" th:each="item : ${orders}">
-          <div class="row g-0 align-items-center col-12" th:with="medicine = ${item.medicine}">
-            <div class="col-md-3 text-center">
-              <img th:src="@{/images/medicine-icon.png}" class="border p-2" style="width: 128px;">
-            </div>
-            <div class="col-md-9">
-              <div class="card-body">
-                <a th:href="@{/medicines/{id}(id=${medicine.getId()})}" class="h5 card-title" style="color: #448cc2; text-decoration: none;">
-                  [[${medicine.name}]]
-                </a>
-                <br>
-                <p class="h6 card-text d-inline" th:text="${item.quantity}">5</p>
-                <p class="h6 card-text d-inline">x</p>
-                <p class="h6 card-text d-inline">[[${medicine.price}]] mdl</p>
-                <hr class="mb-0">
-                <p class="h6 card-text mt-1 d-inline text-success">Total: <p class="text-success h6 card-text d-inline" th:text="${item.getPrice() + ' mdl'}">15.0 mdl</p></p>
+            <button class="btn btn-danger rounded-0">Add</button>
+        </form>
+      </ul>
 
-                <div class="text-end">
-                  <p class="small d-inline">Placed at: </p>
-                  <p class="small d-inline" th:text="${#strings.substring(item.placed_at, 0, 16)}">2023-05-08 20:47</p>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
-      <div th:if="${#lists.isEmpty(orders)}">
-        <p class="lead text-center">You have not placed any orders yet</p>
+      <div class="card-body text-start mb-2 text-center" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+        <a th:href="@{/medicines/{id}/edit(id=${medicine.getId()})}" class="btn btn-primary rounded-0 d-inline">Edit</a>
+        <form class="d-inline" th:method="DELETE" th:action="@{/medicines/{id}(id=${medicine.getId()})}">
+          <a class="btn btn-danger rounded-0 d-inline">Delete</a>
+        </form>
       </div>
     </div>
-
+  </div>
   </section>
 </main>
 

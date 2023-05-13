@@ -1,125 +1,136 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Update medicine</title>
-    <style>
-        body {
-            font-family: "Montserrat SemiBold", sans-serif;
-            letter-spacing: 0.075em;
-        }
-
-        header {
-            background-color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        header img {
-            height: 200px;
-        }
-
-        .container{
-            margin: auto;
-            width: 100%;
-            max-width: 300px;
-            border-radius: 5px;
-            background-color: #f2f2f2;
-            padding: 20px;
-            box-shadow: 0px 2px 2px 3px rgba(0, 0, 255, .2);
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-
-        input[type=button] {
-            background-color: #1E2022;
-            border: none;
-            color: white;
-            padding: 10px 32px;
-            text-align: center;
-            text-decoration: none;
-
-            margin: 0 auto;
-            display: block;
-            cursor: pointer;
-            margin-top: 15px;
-
-            font-family: "Montserrat SemiBold", sans-serif;
-            letter-spacing: 0.075em;
-            font-size: 14px;
-            width: 125px;
-        }
-
-        label {
-            margin: 0 0 3px 0;
-            padding:12px;
-            margin-left: 15px;
-            display:block;
-            font-weight: bold;
-        }
-
-        input {
-            display: block;
-        }
-
-        input[type=submit] {
-            background-color: #0098DA;
-            border: none;
-            color: white;
-            padding: 10px 32px;
-            text-decoration: none;
-            margin: 0 auto;
-            cursor: pointer;
-            margin-top: 15px;
-
-            font-family: "Montserrat SemiBold", sans-serif;
-            letter-spacing: 0.075em;
-            font-size: 14px;
-
-            width: 125px;
-        }
-
-        input[type=text] {
-            width: 80%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-            margin: 0 auto;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .error {
-            margin-left: 20px;
-            margin-top: 5px;
-        }
-
-
-
-
-    </style>
+    <title>Medicines</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <header>
-    <img th:src="@{/images/PharmaReactives-logo.png}"/>
+    <!--  Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #1e1e1e">
+        <div class="container">
+            <a href="/reactives" class="navbar-brand" style="color: #62B2e9">Pharma-Reactive</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/reactives" class="nav-link">Reactives</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/medicines" class="nav-link active">Medicines</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/accounts" class="nav-link" sec:authorize="hasAnyRole('ADMIN')">Accounts</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown" style="background-color: #252526">
+                        <a class="nav-link dropdown-toggle text-light px-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:inline="text">
+                            <i class="bi bi-person-fill me-2"></i>
+                            [[${authentication.getName()}]]
+                        </a>
+                        <ul class="dropdown-menu text-center">
+                            <li><a class="dropdown-item" href="/cart">Shopping Cart</a></li>
+                            <li><a class="dropdown-item" href="/orders">My Orders</a></li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <form th:action="@{/logout}" th:method="POST">
+                                    <input class="btn btn-danger" type="submit" value="Logout"/>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--  Showcase -->
+    <section class="text-light p-5 text-left text-sm-start" style="background-color: #252526">
+        <div class="container">
+            <div class="d-sm-flex align-items-center justify-content-between" >
+                <h1>Edit a <span style="color: #62B2e9">Medicine</span> </h1>
+                <p class="lead my-4">
+                    Here you can edit a medicine that already exists in stock.
+                </p>
+            </div>
+        </div>
+    </section>
 </header>
-<hr/>
 
-<div class="container">
-    <form th:method="PATCH" th:action="@{/medicines/{id}(id=${medicine.getId()})}" th:object="${medicine}">
-        <label for="price">Enter price:</label>
-        <input type="text" th:field="*{price}" id="price"/>
-        <div class="error" style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
+<main class="flex-grow-1" style="background-color: #448cc2">
+    <!-- Card -->
+    <div class="container p-5">
+        <div class="row">
+            <div>
+                <div class="card border-0 shadow m-auto" style="width: 30rem;">
+                    <div class="card-body">
+                        <div class="text-center pt-3">
+                            <i class="bi bi-file-earmark-medical h1"></i>
+                            <p class="h2 text-dark">Editing this Medicine: </p>
+                        </div>
+                        <form th:method="PATCH" th:action="@{/medicines/{id}(id=${medicine.getId()})}" th:object="${medicine}" style="width: 80%" class="m-auto">
+                            <p class="lead fw-bold text-center" style="color: #448cc2" th:text="${medicine.getName()}">Medicine name</p>
 
-        <input type="submit" value="UPDATE">
-    </form>
-</div>
-<hr/>
-<form>
-    <input type="button" value="BACK" onclick="history.back()"/>
-</form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="dose" class="mx-2 mt-2 mb-0 h6 text-dark">Dose (mg)</label>
+                                    <input id="dose" type="text" th:field="*{dose}" class="form-control bg-light rounded-0 my-2 py-2 text-dark"
+                                           style="border: 1px solid #ccc;">
+                                    <div class="alert alert-danger rounded-0 bg-light"
+                                         style="background-color: #252526; border-color: #DC3545;"
+                                         role="alert" th:if="${#fields.hasErrors('dose')}">
+                                        <i class="bi bi-exclamation-circle-fill d-inline text-danger"></i>
+                                        <p class="d-inline text-danger px-2" th:errors="*{dose}">Dose Error</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="price" class="mx-2 mt-2 mb-0 h6 text-dark">Price (mdl)</label>
+                                    <input id="price" type="text" th:field="*{price}" class="form-control bg-light rounded-0 my-2 py-2 text-dark"
+                                           style="border: 1px solid #ccc;">
+                                    <div class="alert alert-danger rounded-0 bg-light"
+                                         style="background-color: #252526; border-color: #DC3545;"
+                                         role="alert" th:if="${#fields.hasErrors('price')}">
+                                        <i class="bi bi-exclamation-circle-fill d-inline text-danger"></i>
+                                        <p class="d-inline text-danger px-2" th:errors="*{price}">Price Error</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn col-12 rounded-0 text-light mt-4 mb-4" style="background-color: #448cc2;">Edit</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="p-5 bg-dark text-light text-center position-relative">
+    <div class="container">
+        <p class="lead">Copyright &copy; 2023 Practica Anul 4</p>
+    </div>
+    <a href="#" class="position-absolute bottom-0 end-0 p-5">
+        <i class="bi bi-arrow-up-circle h1" style="color: #ccc"></i>
+    </a>
+</footer>
 
 </body>
 </html>

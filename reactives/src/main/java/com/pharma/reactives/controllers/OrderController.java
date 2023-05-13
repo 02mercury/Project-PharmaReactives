@@ -48,7 +48,8 @@ public class OrderController {
 
     @GetMapping("/new")
     public String create(@ModelAttribute("deliveryInfo") Order order,
-                         Authentication authentication){
+                         Authentication authentication,
+                         Model model){
         Person user = accountService.getCurrentlyLoggedInUser(authentication);
         List<CartItem> cartItems = cartService.listCartItems(user);
 
@@ -56,17 +57,24 @@ public class OrderController {
             return "redirect:/orders";
         }
 
+        model.addAttribute("authentication", authentication);
+
         return "orders/new";
     }
 
     @PostMapping()
     public String create(@ModelAttribute("deliveryInfo") @Valid Order deliveryInfo,
                          BindingResult bindingResult,
+                         Model model,
                          Authentication authentication){
 
         orderValidator.validate(deliveryInfo, bindingResult);
-        if(bindingResult.hasErrors())
+        if(bindingResult.hasErrors()){
+            model.addAttribute("authentication", authentication);
             return "orders/new";
+        }
+
+
 
         Person user = accountService.getCurrentlyLoggedInUser(authentication);
         List<CartItem> cartItems = cartService.listCartItems(user);

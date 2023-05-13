@@ -15,18 +15,15 @@
     <div class="col-12 col-sm-12 col-lg-6 col-md-8 m-auto">
       <div class="card border-0 shadow"  style="background-color: #252526">
         <div class="card-body">
-          <div class="text-center py-3">
+          <div class="text-center">
             <i class="bi bi-person-circle h1" style="color: white;"></i>
             <p class="h2 text-light">Welcome back!</p>
           </div>
           <form action="login" th:action="@{/auth/login}" method="post" style="width: 80%" class="m-auto">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
-            <div class="alert alert-danger rounded-0"
-                 style="background-color: #252526; border-color: #DC3545;"
-                 role="alert" th:if="${param.error}">
-              <i class="bi bi-exclamation-circle-fill d-inline text-danger"></i>
-              <p class="d-inline text-danger px-2">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+            <div th:if="${param.error}">
+              <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
             </div>
 
             <label for="username" class="mx-2 mt-2 mb-0 h6 text-light">Username</label>
@@ -53,7 +50,7 @@
             </div>
             <div class="text-center mb-4">
               <p class="d-inline" style="color: #ccc">Not a member?</p>
-              <a href="/auth/registration" class="nav-link d-inline" style="color: #448cc2;">Create an account!</a>
+              <a href="#" class="nav-link d-inline" style="color: #448cc2;">Create an account!</a>
             </div>
           </form>
         </div>

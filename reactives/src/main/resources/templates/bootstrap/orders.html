@@ -81,32 +81,32 @@
   <section class="p-5">
     <div class="container">
 
-        <div class="card mb-2 px-2 m-auto" style="max-width: 900px;" th:each="item : ${orders}">
-          <div class="row g-0 align-items-center col-12" th:with="medicine = ${item.medicine}">
-            <div class="col-md-3 text-center">
-              <img th:src="@{/images/medicine-icon.png}" class="border p-2" style="width: 128px;">
-            </div>
-            <div class="col-md-9">
-              <div class="card-body">
-                <a th:href="@{/medicines/{id}(id=${medicine.getId()})}" class="h5 card-title" style="color: #448cc2; text-decoration: none;">
-                  [[${medicine.name}]]
-                </a>
-                <br>
-                <p class="h6 card-text d-inline" th:text="${item.quantity}">5</p>
-                <p class="h6 card-text d-inline">x</p>
-                <p class="h6 card-text d-inline">[[${medicine.price}]] mdl</p>
-                <hr class="mb-0">
-                <p class="h6 card-text mt-1 d-inline text-success">Total: <p class="text-success h6 card-text d-inline" th:text="${item.getPrice() + ' mdl'}">15.0 mdl</p></p>
+      <div class="card mb-3 m-auto shadow px-2" style="max-width: 500px;" th:each="item : ${orders}">
+        <div class="row g-0 align-items-center" th:with="medicine = ${item.medicine}">
+          <div class="col-md-3 text-center">
+            <img th:src="@{/images/medicine-icon.png}" class="border p-2" style="width: 128px;">
+          </div>
+          <div class="col-md-9">
+            <div class="card-body">
+              <a th:href="@{/medicines/{id}(id=${medicine.getId()})}" class="h5 card-title" style="color: #448cc2; text-decoration: none;">
+                [[${medicine.name}]]
+              </a>
+              <br>
+              <p class="h6 card-text d-inline" th:text="${item.quantity}">5</p>
+              <p class="h6 card-text d-inline">x</p>
+              <p class="h6 card-text d-inline">[[${medicine.price}]] mdl</p>
+              <hr class="mb-0">
+              <p class="h6 card-text mt-1 d-inline text-success">Total: <p class="text-success h6 card-text d-inline" th:text="${item.getPrice() + ' mdl'}">15.0 mdl</p></p>
 
-                <div class="text-end">
-                  <p class="small d-inline">Placed at: </p>
-                  <p class="small d-inline" th:text="${#strings.substring(item.placed_at, 0, 16)}">2023-05-08 20:47</p>
-                </div>
-
+              <div class="text-end">
+                <p class="small d-inline">Placed at: </p>
+                <p class="small d-inline" th:text="${#strings.substring(item.placed_at, 0, 16)}">2023-05-08 20:47</p>
               </div>
+
             </div>
           </div>
         </div>
+      </div>
 
       <div th:if="${#lists.isEmpty(orders)}">
         <p class="lead text-center">You have not placed any orders yet</p>
