@@ -2,7 +2,10 @@ package com.pharma.reactives.repositories;
 
 import com.pharma.reactives.models.Reactive;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Aceasta este o interfata care extinde JpaRepository si se ocupa de accesarea si

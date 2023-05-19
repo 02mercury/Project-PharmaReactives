@@ -40,7 +40,10 @@ public class MedicineService {
      * Metoda returnează o listă cu toate obiectele Medicine din baza de date.
      * @return o listă cu toate obiectele Medicine din baza de date
      */
-    public List<Medicine> findAll(){
+    public List<Medicine> findAll(String keyword){
+        if(keyword != null){
+            return medicineRepository.findByKeyword(keyword.toUpperCase());
+        }
         return medicineRepository.findAll();
     }
 

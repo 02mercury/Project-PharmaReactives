@@ -9,6 +9,7 @@ import com.pharma.reactives.util.MedicineValidator;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,9 +51,11 @@ public class MedicineController {
      * @return String - numele view-ului corespunzator listei de medicamente
      */
     @GetMapping()
-    public String getAll(Model model, Authentication authentication){
-        model.addAttribute("medicines", medicineService.findAll());
+    public String getAll(Model model, Authentication authentication,
+                         @Param("keyword") String keyword){
+        model.addAttribute("medicines", medicineService.findAll(keyword));
         model.addAttribute("authentication", authentication);
+        model.addAttribute("keyword", keyword);
         return "medicines/index";
     }
 

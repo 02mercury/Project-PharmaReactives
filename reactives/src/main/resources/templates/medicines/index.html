@@ -77,8 +77,23 @@
             <p class="lead text-center text-white ">
                 These medicines are made only from our reactives, and we ensure their quality.
             </p>
+
+            <nav class="navbar navbar-light justify-content-center m-auto" style="max-width: 350px;">
+                <form class="input-group" th:action="@{/medicines}">
+                    <input class="form-control rounded-0" type="text"
+                           th:value="${keyword}"
+                           name="keyword" placeholder="Search" aria-label="Search" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light rounded-0" type="submit">Search</button>
+                    </div>
+                    <div class=" input-group-append">
+                        <a class="btn btn-outline-light rounded-0" th:href="@{/medicines}" style="width: 80px">Refresh</a>
+                    </div>
+                </form>
+            </nav>
+
             <div class="text-center" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-                <a class="btn btn-outline-light rounded-0 px-5 mb-5" href="medicines/new">Add new Medicine</a>
+                <a class="btn btn-outline-light rounded-0 px-5 mb-5" href="medicines/new" style="width: 350px">Add new Medicine</a>
             </div>
             <div class="row g-4">
                 <div class="col-md-6 col-lg-3" th:each="medicine : ${medicines}">
