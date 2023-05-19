@@ -52,8 +52,10 @@ public class AdminController {
      */
     @GetMapping("/{id}")
     public String getById(@PathVariable("id") int id,
-                          Model model){
+                          Model model,
+                          Authentication authentication){
         model.addAttribute("user", accountService.findOne(id));
+        model.addAttribute("authentication", authentication);
         return "accounts/show";
     }
 

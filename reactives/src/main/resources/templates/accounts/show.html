@@ -1,244 +1,139 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
-  <title>User Information</title>
-  <style>
-    body {
-      font-family: "Montserrat SemiBold", sans-serif;
-      letter-spacing: 0.075em;
-    }
-
-    header {
-      background-color: white;
-      padding: 10px;
-      text-align: center;
-    }
-
-    header img {
-      height: 200px;
-    }
-
-    .wrapper {
-      margin: 0 auto;
-      margin-top: 50px;
-      margin-bottom: 20px;
-      width: 100%;
-      max-width: 700px;
-      display: flex;
-      box-shadow: 0 5px 10px 0 rgba(69, 90, 100, 0.16);
-    }
-
-    .wrapper .left {
-      width: 35%;
-      background: linear-gradient(to bottom right, rgba(17, 171, 220, 0.2), rgb(214, 218, 255));
-      padding: 30px 25px;
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-      text-align: center;
-      color: #fff;
-      font-size: 20px;
-    }
-
-    .wrapper .left img {
-      margin-top: 30px;
-    }
-
-    .wrapper .right {
-      width: 65%;
-      background-color: #ffffff;
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-      padding:25px;
-      border: 1px solid #cccccc;
-    }
-
-    .wrapper .right .info,
-    .wrapper .right .status {
-      margin-bottom: 25px;
-
-    }
-
-    .wrapper .right .info h3,
-    .wrapper .right .status h3{
-      margin-bottom: 15px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid #1E2022;
-      letter-spacing: 5px;
-      color: #1E2022;
-      text-transform: uppercase;
-    }
-
-    .wrapper .right .info_data,
-    .wrapper .right .status-data{
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .wrapper .right .info_data .data,
-    .wrapper .right .status-data .data{
-      width: 60%;
-    }
-
-    .wrapper .right .info_data .data label,
-    .wrapper .right .status-data .data label{
-      color: #353c4e;
-      margin-bottom: 5px;
-    }
-
-    .wrapper .right .info_data .data p,
-    .wrapper .right .status-data .data p{
-      font-size: 14px;
-      font-weight: bold;
-      background-color: #dddddd;
-      padding: 5px;
-      margin-bottom: 0px;
-      /*color: #919aa3;*/
-    }
-
-
-
-    .action {
-      margin: auto;
-      margin-top: 0px;
-      margin-bottom: 50px;
-      width: 250px;
-
-      display: flex;
-      justify-content: space-between;
-
-
-    }
-
-    .edit-button {
-      display: inline-block;
-      background-color: #0098DA;
-      color: white;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      font-size: 12px;
-      width: 80px;
-      margin-left: 5px;
-    }
-
-    input[type=submit] {
-      background-color: #ED504E;
-      border: none;
-      color: white;
-      padding: 10px 30px;
-      text-decoration: none;
-      margin: 0 auto;
-      cursor: pointer;
-
-      margin-right: 5px;
-
-      font-family: "Montserrat SemiBold", sans-serif;
-      letter-spacing: 0.075em;
-      font-size: 12px;
-    }
-
-    input[type=button] {
-      background-color: #1E2022;
-      border: none;
-      color: white;
-      padding: 10px 32px;
-      text-align: center;
-      text-decoration: none;
-
-      margin: 0 auto;
-      display: block;
-      cursor: pointer;
-
-      font-family: "Montserrat SemiBold", sans-serif;
-      letter-spacing: 0.075em;
-      font-size: 12px;
-
-      margin-bottom: 25px;
-      margin-top: 25px;
-    }
-
-    .non-locked.true {
-      color: #0ea96b;
-      font-family: "Montserrat SemiBold", sans-serif;
-    }
-
-    .non-locked.false {
-      color: #ED504E;
-      font-family: "Montserrat SemiBold", sans-serif;
-    }
-
-    .non-locked {
-      text-align: left;
-    }
-
-    .non-locked {
-      font-size: 14px;
-      text-transform: uppercase;
-    }
-
-  </style>
+  <title>Accounts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <header>
-  <img th:src="@{/images/PharmaReactives-logo.png}"/>
+  <!--  Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #1e1e1e">
+    <div class="container">
+      <a href="/reactives" class="navbar-brand" style="color: #62B2e9">Pharma-Reactive</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a href="/reactives" class="nav-link">Reactives</a>
+          </li>
+          <li class="nav-item">
+            <a href="/medicines" class="nav-link">Medicines</a>
+          </li>
+          <li class="nav-item">
+            <a href="/accounts" class="nav-link active" sec:authorize="hasAnyRole('ADMIN')">Accounts</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown" style="background-color: #252526">
+            <a class="nav-link dropdown-toggle text-light px-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:inline="text">
+              <i class="bi bi-person-fill me-2"></i>
+              [[${authentication.getName()}]]
+            </a>
+            <ul class="dropdown-menu text-center">
+              <li><a class="dropdown-item" href="/cart">Shopping Cart</a></li>
+              <li><a class="dropdown-item" href="/orders">My Orders</a></li>
+
+              <li><hr class="dropdown-divider"></li>
+
+              <li>
+                <form th:action="@{/logout}" th:method="POST">
+                  <input class="btn btn-danger" type="submit" value="Logout"/>
+                </form>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!--  Showcase -->
+  <section class="text-light p-5 text-left text-sm-start" style="background-color: #252526">
+    <div class="container">
+      <div class="d-sm-flex align-items-center justify-content-between" >
+        <h1>Account <span style="color: #62B2e9">Details</span> </h1>
+        <p class="lead my-4">
+          Here you can see the details about an account created on this website.
+        </p>
+      </div>
+    </div>
+  </section>
 </header>
 
-<hr/>
+<main class="flex-grow-1">
+  <section style="background-color: #448cc2">
+    <div class="container text-center">
+      <p class="lead p-2 text-light">You can see all details about this Account</p>
+    </div>
+  </section>
 
-<div class="wrapper">
+  <div class="container p-5">
+    <div class="row g-0 d-flex justify-content-center bg-light border m-auto p-3 mb-3" style="max-width: 800px">
+      <div class="col-md-4 border d-flex align-items-center justify-content-center">
+        <h1><i class="fa fa-user fa-4x"></i></h1>
+      </div>
+      <div class="col-md-8 px-4">
 
-  <div class="left">
-    <img th:src="@{/images/edit-icon.png}" alt="user" class="src" width="200px">
-
-    <!--    <h4>USER INFORMATION</h4>-->
-  </div>
-  <div class="right">
-    <div class="info">
-      <h3>User information</h3>
-      <div class="info_data">
-        <div class="data">
-          <label>Username: </label>
-          <p th:text="${user.getUsername()}">VALUE</p>
+        <div class="row  border mb-3">
+          <div class="col-12">
+            <p class="lead mb-0 text-center">Username</p>
+            <hr class="mt-0">
+            <p class="h6 text-center" th:text="${user.getUsername()}">walter</p>
+          </div>
         </div>
 
-        <br/>
-        <div class="data">
-          <label>Date of Birth: </label>
-          <p th:text="${#strings.substring(user.getDate_of_birth(),0,10)}">VALUE</p>
+        <div class="row border mb-3">
+          <div class="col-12">
+            <p class="lead mb-0 text-center">Date of Birth</p>
+            <hr class="mt-0">
+            <p class="h6 text-center" th:text="${#strings.substring(user.getDate_of_birth(),0,10)}">2003-11-05</p>
+          </div>
+        </div>
+
+        <div class="row border">
+          <div class="col-6">
+            <p class="lead mb-0 text-center">Role</p>
+            <hr class="mt-0">
+            <p class="h6 text-center" th:text="${user.getRole()}">ROLE_EMPLOYEE</p>
+          </div>
+          <div class="col-6">
+            <p class="lead mb-0 text-center">Status</p>
+            <hr class="mt-0">
+            <p th:if="${user.accountNonLocked == true}" class="h6 text-center text-success">Active</p>
+            <p th:if="${user.accountNonLocked == false}" class="h6 text-center text-danger">Blocked</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="status">
-      <h3>Type of account</h3>
-      <div class="status-data">
-        <div class="data">
-          <label>Role: </label>
-          <p th:text="${user.getRole()}">VALUE</p>
-        </div>
-        <div class="data">
-          <label>Account non-locked: </label>
-          <p class="non-locked" th:text="${user.isAccountNonLocked()}" th:classappend="${user.isAccountNonLocked()} ? 'true' : 'false'">value</p>        </div>
-      </div>
+    <div class="card-body text-start mb-2 text-center" sec:authorize="hasAnyRole('ADMIN')">
+      <a th:href="@{/accounts/{id}/edit(id=${user.getId})}" class="btn btn-primary rounded-0 d-inline py-2 px-5">Edit</a>
+      <form class="d-inline" th:method="DELETE" th:action="@{/accounts/{id}(id=${user.getId})}">
+        <button class="btn btn-danger btn-sm rounded-0 d-inline py-2 px-5" type="submit">Delete</button>
+      </form>
     </div>
   </div>
-</div>
+</main>
 
-<div class="action">
-  <a th:href="@{/accounts/{id}/edit(id=${user.getId})}" class="edit-button">EDIT</a>
-
-  <form th:method="DELETE" th:action="@{/accounts/{id}(id=${user.getId})}" class="delete-button">
-    <input type="submit" value="DELETE">
-  </form>
-</div>
-<hr/>
-<form>
-  <input type="button" value="BACK" onclick="history.back()"/>
-</form>
+<!-- Footer -->
+<footer class="p-5 bg-dark text-light text-center position-relative">
+  <div class="container">
+    <p class="lead">Copyright &copy; 2023 Practica Anul 4</p>
+  </div>
+  <a href="#" class="position-absolute bottom-0 end-0 p-5">
+    <i class="bi bi-arrow-up-circle h1" style="color: #ccc"></i>
+  </a>
+</footer>
 
 </body>
 </html>

@@ -3,10 +3,11 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Medicines</title>
+    <title>Accounts</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -26,10 +27,10 @@
                         <a href="/reactives" class="nav-link">Reactives</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/medicines" class="nav-link active">Medicines</a>
+                        <a href="/medicines" class="nav-link">Medicines</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/accounts" class="nav-link" sec:authorize="hasAnyRole('ADMIN')">Accounts</a>
+                        <a href="/accounts" class="nav-link active" sec:authorize="hasAnyRole('ADMIN')">Accounts</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -60,73 +61,68 @@
     <section class="text-light p-5 text-left text-sm-start" style="background-color: #252526">
         <div class="container">
             <div class="d-sm-flex align-items-center justify-content-between" >
-                <h1>Information about a <span style="color: #62B2e9">Medicine</span> </h1>
+                <h1>Account <span style="color: #62B2e9">Details</span> </h1>
                 <p class="lead my-4">
-                    Here you can see the information about the medicine and add it to your shopping cart, if you want.
+                    Here you can see the details about an account created on this website.
                 </p>
             </div>
         </div>
     </section>
 </header>
 
-<main class="flex-grow-1" style="background-color: #448cc2">
-    <!-- Card -->
-    <div class="container p-5 ">
-        <div class="card col-lg-6 col-sm-12 m-auto p-2">
-            <div class="text-center pt-2">
-                <img th:src="@{/images/medicine-icon.png}" width="200px" >
+<main class="flex-grow-1">
+    <section style="background-color: #448cc2">
+        <div class="container text-center">
+            <p class="lead p-2 text-light">You can see all details about this Account</p>
+        </div>
+    </section>
+
+    <div class="container p-5">
+        <div class="row g-0 d-flex justify-content-center bg-light border m-auto p-3 mb-3" style="max-width: 800px">
+            <div class="col-md-4 border d-flex align-items-center justify-content-center">
+                <h1><i class="fa fa-user fa-4x"></i></h1>
             </div>
-            <div class="card-body">
-                <h5 class="card-title" th:text="${medicine.getName()}">Medicine name</h5>
-                <p class="card-text">
-                    Medicines are pharmaceutical products used to prevent,
-                    treat or ameliorate various conditions and diseases. They
-                    contain active substances that act on the body in different
-                    ways, aiming to restore the patient's health and well-being.
-                </p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <p class="d-inline">Reactive: </p>
-                    <p class="h6 d-inline" th:text="${medicine.getReactive().getName()}">Reactive name</p>
-                </li>
-                <li class="list-group-item">
-                    <p class="d-inline">Dose: </p>
-                    <p class="h6 d-inline" th:text="${medicine.getDose() + ' mg'}">100 mg</p>
-                </li>
-                <li class="list-group-item">
-                    <p class="d-inline">Price: </p>
-                    <p class="h6 d-inline" th:text="${medicine.getPrice() + ' mg'}">10 mdl</p>
-                </li>
-                <li class="list-group-item text-success">
-                    <p class="h6 d-inline">Stock: </p>
-                    <p class="h6 d-inline" th:text="${quantity}">110</p>
-                </li>
+            <div class="col-md-8 px-4">
 
-                <li class="list-group-item ">
-                    <form class="p-2 text-center" th:method="POST" th:action="@{/cart/add/{id}(id=${medicine.id})}"
-                          th:object="${cartItem}">
+                <div class="row  border mb-3">
+                    <div class="col-12">
+                        <p class="lead mb-0 text-center">Username</p>
+                        <hr class="mt-0">
+                        <p class="h6 text-center" th:text="${user.getUsername()}">walter</p>
+                    </div>
+                </div>
 
-                        <i class="bi bi-cart-plus-fill"></i>
-                        <p class="h6 d-inline">Add to My Shopping Cart: </p>
-                        <input type="number" class="btn btn-number rounded-0"
-                               style="border-color: #ccc; width: 5rem;"
-                               th:field="*{quantity}" min="1" th:max="${medicine.reactive.stock div medicine.dose}"  value="1">
+                <div class="row border mb-3">
+                    <div class="col-12">
+                        <p class="lead mb-0 text-center">Date of Birth</p>
+                        <hr class="mt-0">
+                        <p class="h6 text-center" th:text="${#strings.substring(user.getDate_of_birth(),0,10)}">2003-11-05</p>
+                    </div>
+                </div>
 
-                        <button class="btn btn-danger rounded-0">Add</button>
-                    </form>
-                </li>
-            </ul>
-
-            <div class="card-body text-start mb-2 text-center" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-                <a th:href="@{/medicines/{id}/edit(id=${medicine.getId()})}" class="btn btn-primary rounded-0 d-inline py-2 px-5">Edit</a>
-                <form class="d-inline" th:method="DELETE" th:action="@{/medicines/{id}(id=${medicine.getId()})}">
-                    <button class="btn btn-danger btn-sm rounded-0 d-inline py-2 px-5" type="submit">Delete</button>
-                </form>
+                <div class="row border">
+                    <div class="col-6">
+                        <p class="lead mb-0 text-center">Role</p>
+                        <hr class="mt-0">
+                        <p class="h6 text-center" th:text="${user.getRole()}">ROLE_EMPLOYEE</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="lead mb-0 text-center">Status</p>
+                        <hr class="mt-0">
+                        <p th:if="${user.accountNonLocked == true}" class="h6 text-center text-success">Active</p>
+                        <p th:if="${user.accountNonLocked == false}" class="h6 text-center text-danger">Blocked</p>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="card-body text-start mb-2 text-center" sec:authorize="hasAnyRole('ADMIN')">
+            <a th:href="@{/accounts/{id}/edit(id=${user.getId})}" class="btn btn-primary rounded-0 d-inline py-2 px-5">Edit</a>
+            <form class="d-inline" th:method="DELETE" th:action="@{/accounts/{id}(id=${user.getId})}">
+                <button class="btn btn-danger btn-sm rounded-0 d-inline py-2 px-5" type="submit">Delete</button>
+            </form>
+        </div>
     </div>
-    </section>
 </main>
 
 <!-- Footer -->

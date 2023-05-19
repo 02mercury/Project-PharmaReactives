@@ -90,7 +90,6 @@ public class ReactivesController {
     /**
      * Metoda de afisare a paginii de adaugare a unui reactiv nou.
      *
-     * @param reactive Entitatea Reactive care urmeaza sa fie adaugata.
      * @return String cu numele paginii de adaugare.
      */
     @GetMapping("/new")

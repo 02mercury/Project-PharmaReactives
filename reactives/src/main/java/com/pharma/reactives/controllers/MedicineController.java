@@ -67,9 +67,13 @@ public class MedicineController {
     public String getById(@PathVariable("id") int id,
                           Model model,
                           Authentication authentication){
+        Medicine medicine = medicineService.findOne(id);
+        int quantity = (int) (medicine.getReactive().getStock() / medicine.getDose());
+
         model.addAttribute("medicine", medicineService.findOne(id));
         model.addAttribute("cartItem", new CartItem());
         model.addAttribute("authentication", authentication);
+        model.addAttribute("quantity", quantity);
         return "medicines/show";
     }
 
