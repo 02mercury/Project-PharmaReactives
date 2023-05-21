@@ -34,7 +34,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers("/accounts").hasRole("ADMIN")
                     .requestMatchers("/reactives", "/reactive/{id}").hasAnyRole("ADMIN", "USER", "EMPLOYEE")
-                    .requestMatchers("/reactives/{id}/edit", "/reactives/new").hasAnyRole("ADMIN", "EMPLOYEE")
+                    .requestMatchers("/reactives/{id}/edit", "/reactives/new", "/reactives/export").hasAnyRole("ADMIN", "EMPLOYEE")
 
                     .requestMatchers("/medicines/{id}/edit", "/medicines/new").hasAnyRole("ADMIN", "EMPLOYEE")
                     .requestMatchers("/medicines", "/medicines/{id}").hasAnyRole("ADMIN", "USER", "EMPLOYEE")

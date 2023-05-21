@@ -1,16 +1,23 @@
 package com.pharma.reactives.controllers;
 
 import com.pharma.reactives.models.Reactive;
+import com.pharma.reactives.pdf.ReactivePDF;
 import com.pharma.reactives.services.ReactiveService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,6 +92,26 @@ public class ReactivesController {
         model.addAttribute("reverseSortDir", reverseSortDir);
 
         return "reactives/index";
+    }
+
+    @GetMapping("/export")
+    public void exportToPDF(HttpServletResponse response) throws IOException {
+        response.setContentType("application/pdf");
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+
+        String currentDateTime = dateFormat.format(new Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=reactives_" + currentDateTime + ".pdf";
+
+        response.setHeader(headerKey, headerValue);
+
+        Sort sort = Sort.by("stock");
+
+        List<Reactive> reactiveList = reactiveService.findAll();
+
+        ReactivePDF exporter = new ReactivePDF(reactiveList);
+        exporter.export(response);
     }
 
     /**
