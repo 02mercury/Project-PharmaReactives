@@ -33,6 +33,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests()
                     .requestMatchers("/accounts").hasRole("ADMIN")
+                    .requestMatchers("/dashboard").hasRole("ADMIN")
                     .requestMatchers("/reactives", "/reactive/{id}").hasAnyRole("ADMIN", "USER", "EMPLOYEE")
                     .requestMatchers("/reactives/{id}/edit", "/reactives/new", "/reactives/export").hasAnyRole("ADMIN", "EMPLOYEE")
 

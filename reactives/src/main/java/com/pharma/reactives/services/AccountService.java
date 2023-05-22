@@ -97,4 +97,8 @@ public class AccountService {
 
         return user;
     }
+
+    public int totalAccounts(){
+        return peopleRepository.totalAccounts();
+    }
 }

@@ -65,4 +65,16 @@ public class OrderService {
 
         cartRepository.deleteAll(cartItems);
     }
+
+    public int totalOrders(){
+        return orderRepository.totalOrders();
+    }
+
+    public double profit(){
+        return orderRepository.profit();
+    }
+
+    public double costs(){
+        return orderRepository.costs();
+    }
 }
