@@ -106,8 +106,6 @@ public class ReactivesController {
 
         response.setHeader(headerKey, headerValue);
 
-        Sort sort = Sort.by("stock");
-
         List<Reactive> reactiveList = reactiveService.findAll();
 
         ReactivePDF exporter = new ReactivePDF(reactiveList);
