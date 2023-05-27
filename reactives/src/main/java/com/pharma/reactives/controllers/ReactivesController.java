@@ -3,15 +3,17 @@ package com.pharma.reactives.controllers;
 import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.pdf.ReactivePDF;
 import com.pharma.reactives.services.ReactiveService;
+import com.pharma.reactives.util.ReactiveValidator;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -32,15 +34,18 @@ import java.util.List;
 @RequestMapping("/reactives")
 public class ReactivesController {
     private final ReactiveService reactiveService;
+    private final ReactiveValidator reactiveValidator;
 
     /**
      * Constructor pentru clasa ReactivesController.
      *
-     * @param reactiveService - serviciu care ofera metodele ReactiveService
+     * @param reactiveService   - serviciu care ofera metodele ReactiveService
+     * @param reactiveValidator
      */
     @Autowired
-    public ReactivesController(ReactiveService reactiveService){
+    public ReactivesController(ReactiveService reactiveService, ReactiveValidator reactiveValidator){
         this.reactiveService = reactiveService;
+        this.reactiveValidator = reactiveValidator;
     }
 
     /**
@@ -133,7 +138,16 @@ public class ReactivesController {
      * @return String cu numele paginii care urmeaza sa fie afisata dupa creare.
      */
     @PostMapping()
-    public String create(@ModelAttribute("reactive") Reactive reactive){
+    public String create(@ModelAttribute("reactive") @Valid Reactive reactive,
+                         BindingResult bindingResult,
+                         Authentication authentication,
+                         Model model){
+
+        if(bindingResult.hasErrors()){
+            model.addAttribute("authentication", authentication);
+            return "/reactives/new";
+        }
+
         reactiveService.save(reactive);
         return "redirect:/reactives";
     }
@@ -163,7 +177,15 @@ public class ReactivesController {
      */
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("reactive") Reactive reactive,
-                         @PathVariable("id") int id){
+                         @PathVariable("id") int id,
+                         BindingResult bindingResult,
+                         Authentication authentication,
+                         Model model){
+        reactiveValidator.validate(reactive, bindingResult);
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("authentication", authentication);
+            return "/reactives/edit";
+        }
         reactiveService.update(id, reactive);
         return "redirect:/reactives";
     }

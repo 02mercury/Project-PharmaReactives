@@ -99,4 +99,8 @@ public class ReactiveService {
     public void delete(int id){
         reactivesRepository.deleteById(id);
     }
+
+    public int total(){
+        return reactivesRepository.total();
+    }
 }

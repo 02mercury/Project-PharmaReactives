@@ -34,6 +34,7 @@ public class DashboardController {
                             Model model){
 
         int totalOrders = orderService.totalOrders();
+
         int totalAccounts = accountService.totalAccounts();
 
         DecimalFormat df = new DecimalFormat();
@@ -44,10 +45,20 @@ public class DashboardController {
 
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
+        int totalReactives = reactiveService.total();
+        int totalMedicines = medicineService.total();
+        double total = profit + costs;
+
+        double percentage = (profit / total) * 100;
+
         model.addAttribute("totalOrders", totalOrders);
+        model.addAttribute("totalReactives", totalReactives);
+        model.addAttribute("totalMedicines", totalMedicines);
         model.addAttribute("totalAccounts", totalAccounts);
+        model.addAttribute("total", Float.valueOf(decimalFormat.format(total)));
         model.addAttribute("profit", Float.valueOf(decimalFormat.format(profit)));
         model.addAttribute("costs", Float.valueOf(decimalFormat.format(costs)));
+        model.addAttribute("percentage", Float.valueOf(decimalFormat.format(percentage)));
         model.addAttribute("authentication", authentication);
 
         return "dashboard/index";

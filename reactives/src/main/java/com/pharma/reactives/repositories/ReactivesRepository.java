@@ -16,5 +16,6 @@ import java.util.List;
  */
 @Repository
 public interface ReactivesRepository extends JpaRepository<Reactive, Integer> {
-
+    @Query("SELECT COUNT(*) FROM Reactive r")
+    int total();
 }

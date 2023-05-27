@@ -45,21 +45,6 @@ public class AdminController {
     }
 
     /**
-     * Metoda care intoarce un utilizator specific in functie de id-ul dat ca parametru si afiseaza informatiile acestuia.
-     * @param id - id-ul utilizatorului cautat
-     * @param model - modelul de date care va fi trimis catre view
-     * @return - pagina de afisare a utilizatorului
-     */
-    @GetMapping("/{id}")
-    public String getById(@PathVariable("id") int id,
-                          Model model,
-                          Authentication authentication){
-        model.addAttribute("user", accountService.findOne(id));
-        model.addAttribute("authentication", authentication);
-        return "accounts/show";
-    }
-
-    /**
      * Metoda care afiseaza pagina de editare pentru un utilizator specific in functie de id-ul dat ca parametru.
      * @param id - id-ul utilizatorului care trebuie editat
      * @param model - modelul de date care va fi trimis catre view
@@ -67,7 +52,8 @@ public class AdminController {
      */
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id,
-                       Model model){
+                       Model model, Authentication authentication){
+        model.addAttribute("authentication", authentication);
         model.addAttribute("user", accountService.findOne(id));
         return "accounts/edit";
     }

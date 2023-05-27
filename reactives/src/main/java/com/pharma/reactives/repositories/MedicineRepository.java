@@ -21,4 +21,7 @@ public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
             " UPPER(CONCAT(m.id, m.name, m.reactive.name, m.price)) " +
             " LIKE %?1% ")
     List<Medicine> findByKeyword(String keyword);
+
+    @Query("SELECT COUNT(*) FROM Medicine m")
+    int total();
 }

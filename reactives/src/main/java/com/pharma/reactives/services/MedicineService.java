@@ -88,4 +88,7 @@ public class MedicineService {
         medicineRepository.deleteById(id);
     }
 
+    public int total(){
+        return medicineRepository.total();
+    }
 }

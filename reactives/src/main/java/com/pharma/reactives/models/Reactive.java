@@ -1,6 +1,10 @@
 package com.pharma.reactives.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -27,24 +31,30 @@ public class Reactive {
     /**
      * Numele reactivului.
      */
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     @Column(name = "name")
     private String name;
 
     /**
      * Formula chimică a reactivului.
      */
+    @NotEmpty(message = "Formula should not be empty")
+    @Size(min = 2, max = 30, message = "Formula should be between 2 and 30 characters")
     @Column(name = "formula")
     private String formula;
 
     /**
      * Stocul disponibil al reactivului.
      */
+    @Min(value = 1, message = "Stock should be grater than 1 mg")
     @Column(name = "stock")
     private double stock;
 
     /**
      * Prețul unitar al reactivului.
      */
+    @DecimalMin(value = "0.01", message = "Price should be grater than 0.01 mdl")
     @Column(name = "price")
     private double price;
 

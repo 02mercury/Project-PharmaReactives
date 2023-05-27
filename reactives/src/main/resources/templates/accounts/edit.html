@@ -1,271 +1,132 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
-  <title>Update person</title>
-
-  <style>
-    body {
-      font-family: "Montserrat SemiBold", sans-serif;
-      letter-spacing: 0.075em;
-      font-size: 14px;
-    }
-
-    header {
-      background-color: white;
-      padding: 10px;
-      text-align: center;
-    }
-
-    header img {
-      height: 200px;
-    }
-
-    .form-group{
-      margin: auto;
-      width: 100%;
-      max-width: 250px;
-      border-radius: 5px;
-      background-color: #f2f2f2;
-      padding: 20px;
-      box-shadow: 0px 2px 2px 3px rgba(0, 0, 255, .2);
-      margin-top: 50px;
-      margin-bottom: 25px;
-    }
-
-    .form-group label{
-      margin-left: 15px;
-
-    }
-
-    /*select menu*/
-
-    select {
-      -webkit-appearance:none;
-      -moz-appearance:none;
-      -ms-appearance:none;
-      appearance:none;
-      outline:0;
-      box-shadow:none;
-      border:0!important;
-      background: #cccccc;
-      background-image: none;
-      flex: 1;
-      padding: 0 .5em;
-      color: #1E2022;
-      cursor:pointer;
-      font-size: 1em;
-      font-family: 'Montserrat SemiBold', sans-serif;
-      letter-spacing: 0.075em;
-    }
-    select::-ms-expand {
-      display: none;
-    }
-    .select {
-      margin-top: 10px;
-      position: relative;
-      display: flex;
-      width: 100%;
-      height: 3em;
-      line-height: 3;
-      background: #cccccc;
-      overflow: hidden;
-      border-radius: .25em;
-    }
-    .select::after {
-      content: '\25BC';
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 0 1em;
-      background: #1E2022;
-      cursor:pointer;
-      pointer-events:none;
-      transition:.25s all ease;
-    }
-    .select:hover::after {
-      color: #0098DA;
-      font-size: 14px;
-    }
-
-
-
-    /*-----------*/
-
-    .container {
-      display: inline-block;
-      position: relative;
-      margin-left: 15px;
-
-      margin-top: 5px;
-      margin-bottom: 15px;
-      cursor: pointer;
-      font-size: 14px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      padding-left: 35px;
-
-    }
-
-    .container h1 {
-      font-size: 14px;
-    }
-
-
-    .container input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 0;
-      width: 0;
-    }
-
-    .checkmark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 25px;
-      width: 25px;
-      background-color: #ED504E;
-      margin-top: 3px;
-    }
-
-    .container:hover input ~ .checkmark {
-      background-color: #ED504E;
-    }
-
-    .container input:checked ~ .checkmark {
-      background-color: #38CE4E;
-    }
-
-    .checkmark:after {
-      content: "";
-      position: absolute;
-      display: none;
-    }
-
-    .checkmark:before {
-      content: "X";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 25px;
-      height: 25px;
-      line-height: 25px;
-      text-align: center;
-      font-size: 14px;
-      font-family: "Montserrat SemiBold", sans-serif;
-      color: white;
-    }
-
-    .container input:checked ~ .checkmark:before {
-      display: none;
-    }
-
-    .container input:checked ~ .checkmark:after {
-      display: block;
-    }
-
-    .container .checkmark:after {
-      left: 9px;
-      top: 5px;
-      width: 5px;
-      height: 10px;
-      border: solid white;
-      border-width: 0 3px 3px 0;
-      -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      transform: rotate(45deg);
-    }
-
-    input[type=submit] {
-      background-color: #0098DA;
-      border: none;
-      color: white;
-      padding: 10px 32px;
-      text-decoration: none;
-      margin: 0 auto;
-      cursor: pointer;
-      margin-top: 15px;
-
-      display: block;
-
-      font-family: "Montserrat SemiBold", sans-serif;
-      font-size: 14px;
-      letter-spacing: 0.075em;
-
-
-      margin-bottom: 5px;
-
-      width: 125px;
-    }
-
-    input[type=button] {
-      background-color: #1E2022;
-      border: none;
-      color: white;
-      padding: 10px 32px;
-      text-align: center;
-      text-decoration: none;
-
-      margin: 0 auto;
-      display: block;
-      cursor: pointer;
-      margin-top: 10px;
-
-      width: 125px;
-
-      font-family: "Montserrat SemiBold", sans-serif;
-      letter-spacing: 0.075em;
-      font-size: 14px;
-    }
-
-
-  </style>
-
-
-
+  <title>Accounts</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <header>
-  <img th:src="@{/images/PharmaReactives-logo.png}"/>
-</header>
-<hr/>
+  <!--  Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark py-3" style="background-color: #1e1e1e">
+    <div class="container">
+      <a href="/reactives" class="navbar-brand" style="color: #62B2e9">Pharma-Reactive</a>
 
-<form th:method="PATCH" th:action="@{/accounts/{id}(id=${user.getId()})}" th:object="${user}">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <div class="form-group">
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a href="/reactives" class="nav-link">Reactives</a>
+          </li>
+          <li class="nav-item">
+            <a href="/medicines" class="nav-link">Medicines</a>
+          </li>
+          <li class="nav-item">
+            <a href="/accounts" class="nav-link active" sec:authorize="hasAnyRole('ADMIN')">Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link " sec:authorize="hasAnyRole('ADMIN')">Dashboard</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown" style="background-color: #252526">
+            <a class="nav-link dropdown-toggle text-light px-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:inline="text">
+              <i class="bi bi-person-fill me-2"></i>
+              [[${authentication.getName()}]]
+            </a>
+            <ul class="dropdown-menu text-center">
+              <li><a class="dropdown-item" href="/cart">Shopping Cart</a></li>
+              <li><a class="dropdown-item" href="/orders">My Orders</a></li>
 
-      <label th:for="role"><b>Change role: </b></label><br/>
+              <li><hr class="dropdown-divider"></li>
 
-    <div class="select">
-      <select th:field="*{role}">
-        <option th:each="role : ${user.role.values()}"
-                th:text="${role}"
-                th:value="${role}">OPTION</option>
-      </select>
+              <li>
+                <form th:action="@{/logout}" th:method="POST">
+                  <input class="btn btn-danger" type="submit" value="Logout"/>
+                </form>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <br/>
-    <hr/>
-    <label class="container">
-      <h1>Account is non-locked</h1>
-      <input type="checkbox" id="accountNonLocked" name="accountNonLocked" th:checked="${user.accountNonLocked}" />
-      <span class="checkmark"></span>
-    </label>
+  <!--  Showcase -->
+  <section class="text-light p-5 text-left text-sm-start" style="background-color: #252526">
+    <div class="container">
+      <div class="d-sm-flex align-items-center justify-content-between" >
+        <h1>Edit <span style="color: #62B2e9">Account</span> </h1>
+        <p class="lead my-4">
+          Here you can edit an account registered on this Website.
+        </p>
+      </div>
+    </div>
+  </section>
+</header>
 
+<main class="flex-grow-1">
+
+
+  <section class="container p-5">
+    <h2 class="text-center text-dark">Only for Admin</h2>
+    <p class="lead text-center text-dark pb-5">
+      You can edit the role and status of this account.
+    </p>
+
+    <form th:method="PATCH" th:action="@{/accounts/{id}(id=${user.getId()})}" th:object="${user}">
+
+      <div class="card m-auto shadow" style="width: 18rem;">
+        <div class="card-body text-start">
+          <p class="card-title h4 text-center border-bottom pb-3">Make your changes</p>
+          <i class="bi bi-person-circle d-inline" style="font-size: 18px; color: #0098DA;"></i>
+          <h5 class="text-center p-1 d-inline" style="color: #0098DA" th:text="${user.getUsername()}">walter</h5>
+
+          <div class="mb-3 text-start">
+            <p class="small d-inline text-secondary">Date of Birth:</p>
+            <p class="small text-center card-text text-secondary d-inline" th:text="${#strings.substring(user.getDate_of_birth(),0,10)}">2003-11-05</p>
+          </div>
+          <select class="form-select form-select-sm rounded-0"
+                  aria-label=".form-select-sm example"
+                  th:field="*{role}">
+            <option th:each="role : ${user.role.values()}"
+                    th:text="${role}"
+                    th:value="${role}">ROLE_EMPLOYEE</option>
+          </select>
+
+          <div class="form-check form-switch mt-3 text-center">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Set this account status <b class="small mx-1">Active</b></label>
+            <input th:checked="${user.accountNonLocked}"
+                   name="accountNonLocked"
+                   class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
+          </div>
+
+          <div class="text-center mt-3 border-top pt-3">
+            <button type="submit" class="btn btn-primary rounded-0 p-1" style="width: 250px;">Save changes</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer class="p-5 bg-dark text-light text-center position-relative">
+  <div class="container">
+    <p class="lead">Copyright &copy; 2023 Practica Anul 4</p>
   </div>
-
-  <input type="submit" value="UPDATE">
-
-  <form>
-    <input type="button" value="BACK" onclick="history.back()"/>
-  </form>
-
-</form>
+  <a href="#" class="position-absolute bottom-0 end-0 p-5">
+    <i class="bi bi-arrow-up-circle h1" style="color: #ccc"></i>
+  </a>
+</footer>
 
 </body>
 </html>

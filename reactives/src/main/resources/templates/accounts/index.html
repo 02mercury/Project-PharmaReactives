@@ -73,27 +73,52 @@
 </header>
 
 <main class="flex-grow-1">
-    <!-- List Group -->
-    <section id="accounts">
-        <div class="container p-5">
-            <div class="list-group pb-1" style="width: 600px; margin: 0 auto;" th:each="user : ${users}">
-                <div class="list-group-item d-flex bg-light" >
-                    <div class="row align-items-center col-12">
-                        <div class="col-3">
-                            <i class="bi bi-person-circle h1 px-4" style="color: #448cc2;"></i>
+
+
+    <section class="container p-5">
+        <h2 class="text-center text-dark">Only for Admin</h2>
+        <p class="lead text-center text-dark ">
+            The information on this page can be updated at any time.
+        </p>
+
+        <div class="row g-4 pt-5">
+            <div class="col-md-6 col-lg-3" th:each="user : ${users}">
+                <div class="card shadow" style="width: 18rem;">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <i class="bi bi-person-circle d-inline" style="font-size: 18px; color: #0098DA;"></i>
+                            <h5 class="h6 text-center p-1 d-inline" style="color: #0098DA" th:text="${user.getUsername()}">walter</h5>
                         </div>
-                        <div class="col-7">
-                            <a th:href="@{/accounts/{id}(id=${user.getId()})}"
-                               th:text="${user.getUsername()}" class="text-dark h6" style="text-decoration: none">Username 1</a>
+                        <div class="mb-0 text-start border-top mt-2 pt-2">
+                            <i class="bi bi-calendar-check text-secondary"></i>
+                            <p class="mx-2 small text-center card-text text-secondary d-inline" th:text="${#strings.substring(user.getDate_of_birth(),0,10)}">2003-11-05</p>
                         </div>
-                        <div class="col-2">
-                            <span th:if="${user.accountNonLocked == true}" class="text-success h6">Active</span>
-                            <span th:if="${user.accountNonLocked == false}" class="text-danger h6">Blocked</span>
+                        <div class="mb-0 text-start">
+                            <i class="bi bi-tag-fill text-secondary"></i>
+                            <p class="mx-2 small text-center card-text text-secondary d-inline" th:text="${user.getRole()}">ROLE_EMPLOYEE</p>
+                        </div>
+
+                        <p class="badge text-bg-success mt-1 mb-0 rounded-0" style="width: 100%;" th:if="${user.accountNonLocked == true}">This Account is Active</p>
+                        <p class="badge text-bg-danger mt-1 mb-0 rounded-0" style="width: 100%;" th:if="${user.accountNonLocked == false}">This Account is Blocked</p>
+
+
+                        <div class="d-flex justify-content-center align-items-center border-top mt-3">
+                            <a th:href="@{/accounts/{id}/edit(id=${user.getId})}"
+                               class="btn btn-outline-primary btn-sm rounded-0 mt-3"
+                               style="width: 175px;">Edit this Account</a>
+                            <form th:method="DELETE" th:action="@{/accounts/{id}(id=${user.getId})}">
+                                &nbsp;
+                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-0 mt-3">
+                                    Remove
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
+
     </section>
 </main>
 

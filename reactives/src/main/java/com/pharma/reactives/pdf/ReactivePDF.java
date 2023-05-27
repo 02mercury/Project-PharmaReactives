@@ -28,7 +28,7 @@ public class ReactivePDF {
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(Color.WHITE);
 
-        cell.setPhrase(new Phrase("Reactive ID", font));
+        cell.setPhrase(new Phrase("ID", font));
         table.addCell(cell);
 
         cell.setPhrase(new Phrase("Name", font));
