@@ -56,7 +56,8 @@ public class ReactivesController {
      */
     @GetMapping()
     public String getAll(Model model, Authentication authentication){
-        return listByPage(model, authentication, 1,"id", "desc", 5);
+        String keyword = null;
+        return listByPage(model, authentication, 1,"id", "desc", 5, keyword);
     }
 
     /**
@@ -75,9 +76,10 @@ public class ReactivesController {
                              @PathVariable("pageNumber") int currentPage,
                              @PathParam("sortField") String sortField,
                              @PathParam("sortDir") String sortDir,
-                             @PathParam("size") Integer size){
+                             @PathParam("size") Integer size,
+                             @PathParam("keyword") String keyword){
 
-        Page<Reactive> page = reactiveService.findAllPagination(currentPage, sortField, sortDir, size);
+        Page<Reactive> page = reactiveService.findAllPagination(currentPage, sortField, sortDir, size, keyword);
         List<Reactive> reactiveList = page.getContent();
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
@@ -88,6 +90,7 @@ public class ReactivesController {
         model.addAttribute("reactiveList", reactiveList);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
+        model.addAttribute("keyword", keyword);
 
         model.addAttribute("authentication", authentication);
 

@@ -79,33 +79,52 @@
         <div class="container text-center align-middle">
             Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]
             &nbsp; - &nbsp;
-            <a class="btn btn-outline-light btn-sm" th:if="${currentPage > 1}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">First</a>
+            <a class="btn btn-outline-light btn-sm" th:if="${currentPage > 1}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
             <span class="text-light" th:unless="${currentPage > 1}">First</span>
             &nbsp;&nbsp;
-            <a class="btn btn-outline-light btn-sm" th:if="${currentPage > 1}" th:href="@{'/reactives/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">Previous</a>
+            <a class="btn btn-outline-light btn-sm" th:if="${currentPage > 1}" th:href="@{'/reactives/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
             <span class="text-light" th:unless="${currentPage > 1}">Previous</span>
             &nbsp;&nbsp;
             <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-        <a class="btn btn-outline-light btn-sm" th:if="${i != currentPage}" th:href="@{'/reactives/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">[[${i}]]</a>
-        <span class="btn btn-outline-light btn-sm active" th:unless="${i != currentPage}">[[${i}]]</span>
-    </span>
+                <a class="btn btn-outline-light btn-sm" th:if="${i != currentPage}" th:href="@{'/reactives/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
+                <span class="btn btn-outline-light btn-sm active" th:unless="${i != currentPage}">[[${i}]]</span>
+            </span>
             &nbsp;
-            <a class="btn btn-outline-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">Next</a>
+            <a class="btn btn-outline-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
             <span class="text-light" th:unless="${currentPage < totalPages}">Next</span>
             &nbsp;&nbsp;
-            <a class="btn btn-outline-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size}}">Last</a>
+            <a class="btn btn-outline-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
             <span class="text-light" th:unless="${currentPage <  totalPages}">Last</span>
         </div>
+
+        <!-- Search filter -->
+        <nav class="navbar navbar-light justify-content-center m-auto pt-4" style="max-width: 350px;">
+            <form class="input-group" th:action="@{/reactives/page/1}">
+                <input type="hidden" name="sortField" th:value="${sortField}"/>
+                <input type="hidden" name="sortDir" th:value="${sortDir}"/>
+                <input type="hidden" name="size" th:value="${size}"/>
+                <input class="form-control rounded-0" type="text"
+                       th:value="${keyword}"
+                       name="keyword" placeholder="Search" aria-label="Search" required>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-light rounded-0" type="submit">Search</button>
+                </div>
+                <div class=" input-group-append">
+                    <a class="btn btn-outline-light rounded-0" th:href="@{/reactives}" style="width: 80px">Refresh</a>
+                </div>
+            </form>
+        </nav>
+
         <div class="container text-center align-middle">
             <br>
             Show number of rows:
-            <a class="btn btn-outline-light btn-sm" th:if="${size != 5}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=5'}">5</a>
+            <a class="btn btn-outline-light btn-sm" th:if="${size != 5}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=5' + ${keyword != null ? '&keyword=' + keyword : ''}}">5</a>
             <span class="btn btn-outline-light btn-sm active" th:unless="${size != 5}">5</span>
 
-            <a class="btn btn-outline-light btn-sm" th:if="${size != 10}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=10'}">10</a>
+            <a class="btn btn-outline-light btn-sm" th:if="${size != 10}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=10' + ${keyword != null ? '&keyword=' + keyword : ''}}">10</a>
             <span class="btn btn-outline-light btn-sm active" th:unless="${size != 10}">10</span>
 
-            <a class="btn btn-outline-light btn-sm" th:if="${size != 20}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=20'}">20</a>
+            <a class="btn btn-outline-light btn-sm" th:if="${size != 20}" th:href="@{'/reactives/page/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&size=20' + ${keyword != null ? '&keyword=' + keyword : ''}}">20</a>
             <span class="btn btn-outline-light btn-sm active" th:unless="${size != 20}">20</span>
         </div>
     </section>
@@ -126,20 +145,20 @@
                 <tr>
 
                     <th sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">id</a>
+                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">id</a>
                     </th>
                     <th>
-                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">name</a>
+                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">name</a>
                     </th>
                     <th>
                         <!--       reactive-icon         -->
                     </th>
                     <th>formula</th>
                     <th>
-                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=stock&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">stock</a>
+                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=stock&sortDir=' + ${reverseSortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">stock</a>
                     </th>
                     <th>
-                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir} + '&size=' + ${size}}">price</a>
+                        <a style="color: #448cc2; text-decoration: none;" th:href="@{'/reactives/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir} + '&size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">price</a>
                     </th>
                     <th class="text-sm-center " sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">actions</th>
                 </tr>

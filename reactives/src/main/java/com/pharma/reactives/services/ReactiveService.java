@@ -50,10 +50,16 @@ public class ReactiveService {
      * @param size numarul de elemente pe pagina
      * @return o pagina cu Reactivii din baza de date
      */
-    public Page<Reactive> findAllPagination(int pageNumber, String sortField, String sortDir, Integer size){
+    public Page<Reactive> findAllPagination(int pageNumber, String sortField, String sortDir, Integer size,
+                                            String keyword){
         Sort sort = Sort.by(sortField);
         sort = sortDir.equalsIgnoreCase("asc") ? sort.ascending() : sort.descending();
         Pageable pageable = PageRequest.of(pageNumber - 1, size, sort);
+
+        if(keyword != null){
+            return reactivesRepository.findAll(keyword.toUpperCase(), pageable);
+        }
+
         return reactivesRepository.findAll(pageable);
     }
 
