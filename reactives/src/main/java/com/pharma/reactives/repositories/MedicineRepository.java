@@ -19,11 +19,16 @@ import java.util.List;
  */
 @Repository
 public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
-    @Query("SELECT m FROM Medicine  m WHERE " +
-            " UPPER(CONCAT(m.id, ' ', m.name, ' ', m.reactive.name, ' ', m.price)) " +
-            " LIKE %?1% ")
-    List<Medicine> findByKeyword(String keyword);
+//    @Query("SELECT m FROM Medicine  m WHERE " +
+//            " UPPER(CONCAT(m.id, ' ', m.name, ' ', m.reactive.name, ' ', m.price)) " +
+//            " LIKE %?1% ")
+//    List<Medicine> findByKeyword(String keyword);
 
     @Query("SELECT COUNT(*) FROM Medicine m")
     int total();
+
+    @Query("SELECT m FROM Medicine m WHERE "
+            + "UPPER(CONCAT(m.id, ' ', m.name, ' ', m.reactive.name, ' ', m.price)) "
+            + "LIKE %?1%")
+    Page<Medicine> findAll(String keyword, Pageable pageable);
 }

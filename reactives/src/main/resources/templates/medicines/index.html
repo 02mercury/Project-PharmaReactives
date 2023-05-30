@@ -81,8 +81,30 @@
                 These medicines are made only from our reactives, and we ensure their quality.
             </p>
 
+            <div class="container text-center align-middle text-light">
+                Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]
+                &nbsp; - &nbsp;
+                <a class="btn btn-outline-light btn-sm" th:if="${currentPage > 1}" th:href="@{'/medicines/page/1?size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+                <span class="text-light" th:unless="${currentPage > 1}">First</span>
+                &nbsp;&nbsp;
+                <a class="btn btn-outline-light btn-sm" th:if="${currentPage > 1}" th:href="@{'/medicines/page/' + ${currentPage - 1} + '?size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+                <span class="text-light" th:unless="${currentPage > 1}">Previous</span>
+                &nbsp;&nbsp;
+                <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a class="btn btn-outline-light btn-sm" th:if="${i != currentPage}" th:href="@{'/medicines/page/' + ${i} + '?size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
+                <span class="btn btn-outline-light btn-sm active" th:unless="${i != currentPage}">[[${i}]]</span>
+            </span>
+                &nbsp;
+                <a class="btn btn-outline-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/medicines/page/' + ${currentPage + 1} + '?size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+                <span class="text-light" th:unless="${currentPage < totalPages}">Next</span>
+                &nbsp;&nbsp;
+                <a class="btn btn-outline-light btn-sm" th:if="${currentPage < totalPages}" th:href="@{'/reactives/page/' + ${totalPages} + '?size=' + ${size} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+                <span class="text-light" th:unless="${currentPage <  totalPages}">Last</span>
+            </div>
+
             <nav class="navbar navbar-light justify-content-center m-auto" style="max-width: 350px;">
-                <form class="input-group" th:action="@{/medicines}">
+                <form class="input-group" th:action="@{/medicines/page/1}">
+                    <input type="hidden" name="size" th:value="${size}"/>
                     <input class="form-control rounded-0" type="text"
                            th:value="${keyword}"
                            name="keyword" placeholder="Search" aria-label="Search" required>
@@ -96,7 +118,7 @@
             </nav>
 
             <div class="text-center" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-                <a class="btn btn-outline-light rounded-0 px-5 mb-5" href="medicines/new" style="width: 350px">Add new Medicine</a>
+                <a class="btn btn-outline-light rounded-0 px-5 mb-5" th:href="@{/medicines/new}" style="width: 350px">Add new Medicine</a>
             </div>
             <div class="row g-4">
                 <div class="col-md-6 col-lg-3" th:each="medicine : ${medicines}">

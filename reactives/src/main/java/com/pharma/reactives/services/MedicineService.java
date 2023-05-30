@@ -1,9 +1,14 @@
 package com.pharma.reactives.services;
 
 import com.pharma.reactives.models.Medicine;
+import com.pharma.reactives.models.Reactive;
 import com.pharma.reactives.repositories.MedicineRepository;
 import com.pharma.reactives.repositories.ReactivesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,17 +39,6 @@ public class MedicineService {
     public MedicineService(ReactivesRepository reactivesRepository, MedicineRepository medicineRepository) {
         this.reactivesRepository = reactivesRepository;
         this.medicineRepository = medicineRepository;
-    }
-
-    /**
-     * Metoda returnează o listă cu toate obiectele Medicine din baza de date.
-     * @return o listă cu toate obiectele Medicine din baza de date
-     */
-    public List<Medicine> findAll(String keyword){
-        if(keyword != null){
-            return medicineRepository.findByKeyword(keyword.toUpperCase());
-        }
-        return medicineRepository.findAll();
     }
 
     /**
@@ -90,5 +84,23 @@ public class MedicineService {
 
     public int total(){
         return medicineRepository.total();
+    }
+
+    /**
+     * Returneaza o pagina cu Medicamente din baza de date, sortata dupa un camp dat si directie de sortare.
+     * @param pageNumber numarul paginii
+     * @param size numarul de elemente pe pagina
+     * @return o pagina cu Reactivii din baza de date
+     */
+    public Page<Medicine> findAllPagination(int pageNumber,  Integer size,
+                                            String keyword){
+
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+
+        if(keyword != null){
+            return medicineRepository.findAll(keyword.toUpperCase(), pageable);
+        }
+
+        return medicineRepository.findAll(pageable);
     }
 }

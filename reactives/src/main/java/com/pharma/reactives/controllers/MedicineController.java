@@ -7,14 +7,18 @@ import com.pharma.reactives.services.MedicineService;
 import com.pharma.reactives.services.ReactiveService;
 import com.pharma.reactives.util.MedicineValidator;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Clasa MedicineController gestioneaza requesturile primite pentru entitatea "medicamente"
@@ -51,11 +55,35 @@ public class MedicineController {
      * @return String - numele view-ului corespunzator listei de medicamente
      */
     @GetMapping()
-    public String getAll(Model model, Authentication authentication,
-                         @Param("keyword") String keyword){
-        model.addAttribute("medicines", medicineService.findAll(keyword));
-        model.addAttribute("authentication", authentication);
+    public String getAll(Model model, Authentication authentication){
+        String keyword = null;
+        return listByPage(model, authentication, 1, 4, keyword);
+
+    }
+
+    @GetMapping("/page/{pageNumber}")
+    public String listByPage(Model model,
+                             Authentication authentication,
+                             @PathVariable("pageNumber") int currentPage,
+                             @PathParam("size") Integer size,
+                             @PathParam("keyword") String keyword){
+
+        Page<Medicine> page = medicineService.findAllPagination(currentPage,size, keyword);
+        List<Medicine> medicines = page.getContent();
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("medicines", medicines);
         model.addAttribute("keyword", keyword);
+
+        model.addAttribute("authentication", authentication);
+
+        model.addAttribute("size", size);
+
+
         return "medicines/index";
     }
 
